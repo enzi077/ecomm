@@ -9,6 +9,7 @@
                 <q-btn no-caps align="center" size="20px" :ripple="false" dense flat to="/">E-comm Ninja</q-btn>
             </q-toolbar-title>
 
+        <q-btn dense flat round icon="favorite" to="/shortlist"/>
         <q-btn dense flat round icon="shopping_cart" to="/checkout"/>
       </q-toolbar>
     </q-header>

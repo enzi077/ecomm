@@ -1,6 +1,6 @@
 <template>
   <q-page flex>
-        <div class="row q-pa-xl">
+        <div class="q-pa-md">
             <q-carousel
                 v-model="slide"
                 transition-prev="scale"
@@ -27,15 +27,18 @@
             </q-carousel>
         </div>
 
-    <div class="row q-pa-xl q-gutter-lg justify-evenly">
+    <div class="row q-pa-md q-gutter-md justify-evenly">
         <q-card
           v-for="n in 13"
           :key="n"
-          v-ripple
-          class="my-card cursor-pointer q-hoverable col-2"
-          @click="basic=true"
+          class="my-card col-xs-12 col-sm-4 col-md-2"
         >
-            <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
+            <q-img
+              @click="basic=true"
+              v-ripple
+              class="cursor-pointer q-hoverable"
+              src="https://cdn.quasar.dev/img/parallax2.jpg"
+            >
                 <div class="absolute-bottom">
                 <div class="text-h6">Our Changing Planet</div>
                 <div class="text-subtitle2">by John Doe</div>
@@ -43,7 +46,7 @@
             </q-img>
 
             <q-card-actions>
-                <q-btn flat round color="red" icon="favorite" />
+                <q-btn flat round color="red" icon="favorite" @click="addToShortlist"/>
                 <q-btn flat round icon="shopping_cart" />
             </q-card-actions>
         </q-card>
@@ -59,8 +62,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Decline" color="primary" v-close-popup />
-          <q-btn flat label="Accept" color="primary" v-close-popup />
+            <q-btn flat label="Cancel" color="primary" v-close-popup />
+            <q-btn flat label="Add to Cart" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -75,6 +78,11 @@ export default {
     return {
       slide: 'style',
       basic: false
+    }
+  },
+  methods: {
+    addToShortlist (e) {
+      console.log(e)
     }
   }
 }
