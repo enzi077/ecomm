@@ -29,20 +29,16 @@
             label="Proceed to Pay"
             class="q-ma-md"
             no-caps
-            @click="basic=true"
+            @click="showPaymentDialog"
         />
         <q-dialog v-model="basic">
             <q-card>
                 <q-card-section>
-                <q-img src="https://cdn.quasar.dev/img/parallax2.jpg"/>
+                    Proceed to pay?
                 </q-card-section>
-
-                <q-card-section class="q-pt-none">
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo, sequi.</p>
-                </q-card-section>
-
-                <q-card-actions align="right">
-                    <q-btn flat label="Pay" color="primary" v-close-popup />
+                <q-card-actions>
+                    <q-btn flat label="Cancel" color="primary" v-close-popup />
+                    <q-btn flat label="OK" color="primary" v-close-popup @click="proceedToPayment"/>
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -56,6 +52,14 @@ export default {
     return {
       check1: false,
       basic: false
+    }
+  },
+  methods: {
+    showPaymentDialog () {
+      this.basic = !this.basic
+    },
+    proceedToPayment () {
+      this.$router.push('/payment')
     }
   }
 }

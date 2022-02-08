@@ -15,27 +15,15 @@
     </q-header>
 
     <q-drawer show-if-above v-model="left" side="left" bordered>
-        <q-list bordered>
+        <q-list v-for="category in categories" :key="category" bordered>
             <q-item clickable v-ripple>
                 <q-item-section avatar>
-                <q-avatar color="teal" text-color="white" icon="bluetooth" />
+                    <q-avatar color="teal" text-color="white">
+                        {{ category.charAt(0) }}
+                    </q-avatar>
                 </q-item-section>
 
-                <q-item-section>Brand name</q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-                <q-item-section avatar>
-                <q-avatar color="teal" text-color="white" icon="bluetooth" />
-                </q-item-section>
-
-                <q-item-section>Brand name</q-item-section>
-            </q-item>
-            <q-item clickable v-ripple>
-                <q-item-section avatar>
-                <q-avatar color="teal" text-color="white" icon="bluetooth" />
-                </q-item-section>
-
-                <q-item-section>Brand name</q-item-section>
+                <q-item-section>{{ category }}</q-item-section>
             </q-item>
         </q-list>
     </q-drawer>
@@ -51,11 +39,24 @@
 </template>
 
 <script>
+import axios from '../axios-auth'
+import toUpper from '../utils/toUpperString'
 export default {
   data () {
     return {
-      left: false
+      left: false,
+      categories: []
     }
+  },
+  created () {
+    axios.get('/products/categories')
+      .then(res => {
+        // eslint-disable-next-line prefer-const
+        for (let myData in res.data) {
+          this.categories.push(toUpper(res.data[myData]))
+        }
+      })
+      .catch(error => console.log(error))
   }
 }
 </script>

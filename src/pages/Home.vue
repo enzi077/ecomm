@@ -1,89 +1,20 @@
 <template>
   <q-page flex>
-        <div class="q-pa-md">
-            <q-carousel
-                v-model="slide"
-                transition-prev="scale"
-                transition-next="scale"
-                swipeable
-                animated
-                control-color="white"
-                navigation
-                padding
-                arrows
-                height="300px"
-                class="bg-primary text-white shadow-1 rounded-borders col"
-            >
-                    <q-carousel-slide name="style" class="column no-wrap flex-center">
-                    <div class="q-mt-md text-center">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure, expedita.
-                    </div>
-                    </q-carousel-slide>
-                    <q-carousel-slide name="tv" class="column no-wrap flex-center">
-                    <div class="q-mt-md text-center">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui, at.
-                    </div>
-                    </q-carousel-slide>
-            </q-carousel>
-        </div>
-
-    <div class="row q-pa-md q-gutter-md justify-evenly">
-        <q-card
-          v-for="n in 13"
-          :key="n"
-          class="my-card col-xs-12 col-sm-4 col-md-2"
-        >
-            <q-img
-              @click="basic=true"
-              v-ripple
-              class="cursor-pointer q-hoverable"
-              src="https://cdn.quasar.dev/img/parallax2.jpg"
-            >
-                <div class="absolute-bottom">
-                <div class="text-h6">Our Changing Planet</div>
-                <div class="text-subtitle2">by John Doe</div>
-                </div>
-            </q-img>
-
-            <q-card-actions>
-                <q-btn flat round color="red" icon="favorite" @click="addToShortlist"/>
-                <q-btn flat round icon="shopping_cart" />
-            </q-card-actions>
-        </q-card>
-    </div>
-    <q-dialog v-model="basic">
-      <q-card>
-        <q-card-section>
-          <q-img src="https://cdn.quasar.dev/img/parallax2.jpg"/>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo, sequi.</p>
-        </q-card-section>
-
-        <q-card-actions align="right">
-            <q-btn flat label="Cancel" color="primary" v-close-popup />
-            <q-btn flat label="Add to Cart" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+        <Carousel/>
+        <Card/>
   </q-page>
 </template>
 
 <script>
+import Carousel from '../components/Carousel.vue'
+import Card from '../components/Card.vue'
 
 export default {
   name: 'Home',
-  data () {
-    return {
-      slide: 'style',
-      basic: false
-    }
-  },
-  methods: {
-    addToShortlist (e) {
-      console.log(e)
-    }
+  components: {
+    Carousel,
+    Card
   }
 }
+
 </script>
