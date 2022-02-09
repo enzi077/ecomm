@@ -9,7 +9,7 @@
             class="my-card col-xs-12 col-sm-6 col-md-3"
             >
                 <q-img
-                @click="showProductDetails"
+                @click="showProductDetails(product.id)"
                 v-ripple
                 class="cursor-pointer q-hoverable"
                 :src= "product.image"
@@ -32,23 +32,11 @@
 </template>
 
 <script>
-import axios from '../axios-auth'
 export default {
-  data () {
-    return {
-      products: []
-    }
-  },
-  created () {
-    axios.get('/products')
-      .then(res => {
-        this.products = res.data
-      })
-      .catch(error => console.log(error))
-  },
+  props: ['products'],
   methods: {
-    showProductDetails () {
-      this.$router.push('/product-detail')
+    showProductDetails (id) {
+      this.$router.push(`/product-detail/${id}`)
     },
     addToShortlist (e) {
       console.log(this.$store.state.myStore.counter)
