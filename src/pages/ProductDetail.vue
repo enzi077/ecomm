@@ -4,6 +4,7 @@
             <q-card class="my-card">
                 <q-img
                     basic
+                    style="max-height: 300px"
                     :src="myProduct.image"
                 />
             </q-card>

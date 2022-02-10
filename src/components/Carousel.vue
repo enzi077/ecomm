@@ -14,7 +14,7 @@
                 v-if="products.length > 0"
                 class="bg-primary text-white shadow-1 rounded-borders col"
             >
-            <q-carousel-slide
+            <!-- <q-carousel-slide
               name="style"
               class="column no-wrap flex-center"
               v-for="product in products"
@@ -24,6 +24,9 @@
                 <div class="q-mt-md text-center">
                     {{product.title}}
                 </div>
+            </q-carousel-slide> -->
+            <q-carousel-slide name="style" class="column no-wrap flex-center">
+                <div class="q-mt-md text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos, architecto?</div>
             </q-carousel-slide>
     </q-carousel>
     </div>

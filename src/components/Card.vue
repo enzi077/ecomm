@@ -21,8 +21,8 @@
                 </q-img>
 
                 <q-card-actions>
-                    <q-btn flat round color="red" icon="favorite" @click="addToShortlist"/>
-                    <q-btn flat round icon="shopping_cart" />
+                    <q-btn flat round color="red" icon="favorite" @click="addToShortlist(product)"/>
+                    <q-btn flat round icon="shopping_cart"/>
                 </q-card-actions>
         </q-card>
     </div>
@@ -38,8 +38,8 @@ export default {
     showProductDetails (id) {
       this.$router.push(`/product-detail/${id}`)
     },
-    addToShortlist (e) {
-      console.log(this.$store.state.myStore.counter)
+    addToShortlist (product) {
+      this.$router.push(`/shortlist/${product.id}`)
     }
   }
 }

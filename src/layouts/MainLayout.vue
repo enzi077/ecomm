@@ -15,7 +15,7 @@
     </q-header>
 
     <q-drawer show-if-above v-model="left" side="left" bordered>
-        <q-list v-for="category in categories" :key="category" bordered>
+        <q-list v-for="(category) in categories" :key="category" bordered>
             <q-item @click="showCategory(category)" clickable v-ripple>
                 <q-item-section avatar>
                     <q-avatar color="teal" text-color="white">
@@ -29,7 +29,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view :key="$route.path"/>
     </q-page-container>
 
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
