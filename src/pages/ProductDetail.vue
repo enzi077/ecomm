@@ -33,14 +33,14 @@
             /> -->
         </div>
     </div>
-    <div v-else class="row">
-        <q-spinner class="col justify-center" color="primary" size="3em"/>
-    </div>
+    <Spinner v-else/>
 </template>
 
 <script>
+import Spinner from 'src/components/Spinner.vue'
 import axios from '../axios-auth'
 export default {
+  components: { Spinner },
   data () {
     return {
       myProduct: {}

@@ -1,17 +1,17 @@
 <template>
-    <q-page>
+    <q-page v-if="shortlistGetter">
         <q-list bordered>
-            <q-item>
+            <q-item v-for="product in shortlistGetter" :key="product.id">
                 <q-item-section avatar>
                     <q-avatar>
-                        <img src="https://cdn.quasar.dev/img/parallax2.jpg">
+                        <img :src="product.image">
                     </q-avatar>
                 </q-item-section>
                 <q-item-section>
-                    <q-item-label>Product Name</q-item-label>
+                    <q-item-label>{{product.title}}</q-item-label>
                 </q-item-section>
                 <q-item-section side>
-                    <q-checkbox v-model="check1"/>
+                    <q-checkbox v-model="check" :val="product.id"/>
                 </q-item-section>
             </q-item>
         </q-list>
@@ -26,25 +26,28 @@
           color="red"
           label="Remove from shortlist"
           class="q-ma-md"
+          @click="updateShortlist({check})"
         />
     </q-page>
+    <Spinner v-else/>
 </template>
 
 <script>
-import axios from '../axios-auth'
+import Spinner from 'src/components/Spinner.vue'
+import { mapGetters, mapActions } from 'vuex'
 export default {
+  /* eslint-disable prefer-const */
+  components: { Spinner },
   data () {
     return {
-      check1: true
+      check: []
     }
   },
-  props: ['id'],
-  created () {
-    axios.get('/products/carts')
-      .then(res => {
-        this.cart = res.data
-      })
-      .catch(err => console.log(err))
+  computed: {
+    ...mapGetters('myStore', ['shortlistGetter'])
+  },
+  methods: {
+    ...mapActions('myStore', ['updateShortlist'])
   }
 }
 </script>

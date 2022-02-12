@@ -21,25 +21,37 @@
                 </q-img>
 
                 <q-card-actions>
-                    <q-btn flat round color="red" icon="favorite" @click="addToShortlist(product)"/>
+                    <q-btn
+                      flat
+                      round
+                      icon="favorite"
+                      @click="addToShortlist(product)" />
                     <q-btn flat round icon="shopping_cart"/>
                 </q-card-actions>
         </q-card>
     </div>
-    <div v-else class="row">
-        <q-spinner class="col justify-center" color="primary" size="3em"/>
-    </div>
+    <Spinner v-else/>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import Spinner from './Spinner.vue'
 export default {
+  components: { Spinner },
   props: ['products'],
   methods: {
+    ...mapActions('myStore', ['shortlistProdAction']),
     showProductDetails (id) {
       this.$router.push(`/product-detail/${id}`)
     },
     addToShortlist (product) {
-      this.$router.push(`/shortlist/${product.id}`)
+      if (product) {
+        this.shortlistProdAction(product)
+        this.$q.notify({
+          message: 'Added to Shortlist',
+          color: '#c1c1c1'
+        })
+      }
     }
   }
 }

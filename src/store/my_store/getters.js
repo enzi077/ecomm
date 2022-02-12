@@ -1,4 +1,4 @@
 
-export function someGetter (state) {
-  return state.counter
+export function shortlistGetter (state) {
+  return state.shortlistProd
 }

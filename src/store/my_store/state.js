@@ -1,5 +1,5 @@
 export default function () {
   return {
-    counter: 0
+    shortlistProd: []
   }
 }
