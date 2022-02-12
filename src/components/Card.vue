@@ -24,6 +24,7 @@
                     <q-btn
                       flat
                       round
+                      color="none"
                       icon="favorite"
                       @click="addToShortlist(product)" />
                     <q-btn flat round icon="shopping_cart"/>
@@ -34,11 +35,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Spinner from './Spinner.vue'
 export default {
   components: { Spinner },
   props: ['products'],
+  computed: {
+    ...mapGetters('myStore', ['shortlistGetter'])
+  },
   methods: {
     ...mapActions('myStore', ['shortlistProdAction']),
     showProductDetails (id) {

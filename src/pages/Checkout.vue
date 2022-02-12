@@ -1,18 +1,28 @@
 <template>
     <q-page>
-        <q-item v-for="n in 10" :key="n" class="q-mb-sm" clickable v-ripple>
+        <q-item
+          v-for="cartItem in cartItemGetter"
+          :key="cartItem.id"
+          class="q-mb-sm row"
+          clickable
+          v-ripple>
             <q-item-section avatar>
                 <q-avatar>
-                    <img src="https://cdn.quasar.dev/img/parallax2.jpg">
+                    <img :src="cartItem.image">
                 </q-avatar>
-            </q-item-section>
-
+             </q-item-section>
             <q-item-section>
-                <q-item-label>Product Name</q-item-label>
+                <q-item-label>{{cartItem.title}}</q-item-label>
             </q-item-section>
-
             <q-item-section side>
-                <q-checkbox v-model="check1" />
+                <q-input
+                    v-model.number="itemCount"
+                    type="number"
+                    style="max-width: 100px"
+                />
+            </q-item-section>
+            <q-item-section side>
+                <q-checkbox v-model="check" :val="cartItem.id"/>
             </q-item-section>
         </q-item>
         <q-item>
@@ -20,16 +30,22 @@
                 <q-item-label>Total</q-item-label>
             </q-item-section>
             <q-item-section side>
-                <q-item-label>= $12312</q-item-label>
+                <q-item-label>= ${{getTotalPrice}}</q-item-label>
             </q-item-section>
         </q-item>
         <q-btn
-            color="red"
-            icon-right="send"
+            color="green"
             label="Proceed to Pay"
             class="q-ma-md"
             no-caps
             @click="showPaymentDialog"
+        />
+        <q-btn
+            color="red"
+            label="Remove from cart"
+            class="q-ma-md"
+            no-caps
+            @click="updateCart({check, remove: true})"
         />
         <q-dialog v-model="basic">
             <q-card>
@@ -46,20 +62,41 @@
 </template>
 
 <script>
+/* eslint-disable prefer-const */
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'Checkout',
   data () {
     return {
-      check1: false,
-      basic: false
+      check: [],
+      basic: false,
+      itemCount: 1
+    }
+  },
+  computed: {
+    ...mapGetters('myStore', ['cartItemGetter']),
+    getTotalPrice () {
+      if (this.check) {
+        return (this.cartItemGetter.filter(item =>
+          this.check.sort().indexOf(item.id) > -1
+        ).reduce(function (tempVal, currVal) {
+          return tempVal + currVal.price
+        }, 0))
+      } else {
+        return (this.cartItemGetter.reduce(function (tempVal, currVal) {
+          return tempVal + currVal.price
+        }, 0))
+      }
     }
   },
   methods: {
+    ...mapActions('myStore', ['updateCart']),
     showPaymentDialog () {
       this.basic = !this.basic
     },
     proceedToPayment () {
-      this.$router.push('/payment')
+      this.$router.push({ path: '/payment', query: { amt: this.getTotalPrice } })
     }
   }
 }

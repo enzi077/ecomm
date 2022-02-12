@@ -1,10 +1,11 @@
 <template>
     <div class="row items-start">
+        <Address/>
         <q-form
             @submit="onSubmit"
             @reset="onReset"
-          autofocus
-          class="col-xs-12 col-sm-8 col-md-6 q-gutter-lg">
+            autofocus
+            class="col-xs-12 col-sm-8 col-md-6 q-gutter-lg">
             <q-input
                 v-model="name"
                 label="Name"
@@ -32,13 +33,24 @@
                 stack-label
             />
             <div>
-                <q-btn label="Submit" type="submit" color="primary"/>
+                <q-btn label="Pay" type="submit" color="primary"/>
                 <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
             </div>
         </q-form>
+        <q-dialog v-model="showPaymentSuccess">
+            <q-card>
+                <q-card-section>
+                    Your payment is successful
+                </q-card-section>
+                <q-card-actions>
+                    <q-btn flat label="OK" color="primary" v-close-popup />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
     </div>
 </template>
 <script>
+import Address from './Address.vue'
 export default {
   data () {
     return {
@@ -46,15 +58,22 @@ export default {
       cvv: '',
       cardNumber: '',
       date: '',
-      dense: true
+      dense: true,
+      showPaymentSuccess: false
     }
+  },
+  components: {
+    Address
   },
   methods: {
     onSubmit () {
-      console.log('submitted')
+      this.showPaymentSuccess = !this.showPaymentSuccess
     },
     onReset () {
-      console.log('reset')
+      this.name = ''
+      this.cvv = ''
+      this.cardNumber = ''
+      this.date = ''
     }
   }
 }

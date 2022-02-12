@@ -18,7 +18,7 @@
               name="style"
               class="column no-wrap flex-center"
               v-for="product in products"
-              :key="product"
+              :key="product.id"
               :img-src="product.image"
             >
                 <div class="q-mt-md text-center">

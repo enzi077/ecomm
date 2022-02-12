@@ -20,6 +20,7 @@
           color="green"
           label="Add to Cart"
           class="q-ma-md"
+          @click="updateCart({check, remove: false})"
         />
         <q-btn
           no-caps
@@ -47,7 +48,7 @@ export default {
     ...mapGetters('myStore', ['shortlistGetter'])
   },
   methods: {
-    ...mapActions('myStore', ['updateShortlist'])
+    ...mapActions('myStore', ['updateShortlist', 'updateCart'])
   }
 }
 </script>
