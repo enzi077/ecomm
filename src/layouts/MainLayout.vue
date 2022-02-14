@@ -29,7 +29,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view :key="$route.path"/>
+      <router-view :products="products" :key="$route.path"/>
     </q-page-container>
 
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
@@ -46,7 +46,8 @@ export default {
   data () {
     return {
       left: false,
-      categories: []
+      categories: [],
+      products: []
     }
   },
   methods: {
@@ -62,6 +63,13 @@ export default {
         for (let myData in res.data) {
           this.categories.push(toUpper(res.data[myData]))
         }
+      })
+      .catch(error => console.log(error))
+
+    axios.get('/products')
+      .then(res => {
+        // eslint-disable-next-line prefer-const
+        this.products = res.data
       })
       .catch(error => console.log(error))
   }

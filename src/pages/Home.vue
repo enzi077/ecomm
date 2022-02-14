@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import axios from '../axios-auth'
+/* eslint-disable prefer-const */
 import Carousel from '../components/Carousel.vue'
 import Card from '../components/Card.vue'
 
@@ -16,18 +16,6 @@ export default {
     Carousel,
     Card
   },
-  data () {
-    return {
-      products: []
-    }
-  },
-  beforeMount () {
-    axios.get('/products')
-      .then(res => {
-        this.products = res.data
-        console.log(this.products)
-      })
-      .catch(error => console.log(error))
-  }
+  props: ['products']
 }
 </script>

@@ -1,6 +1,8 @@
 export default function () {
   return {
+    products: [],
     shortlistProd: [],
-    cartItem: []
+    cartItem: [],
+    fav: false
   }
 }
