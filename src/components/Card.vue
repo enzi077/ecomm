@@ -28,7 +28,13 @@
                       :color="toggleFav(product) ? 'red' : 'none'"
                       icon="favorite"
                       @click="addToShortlist(product)" />
-                    <q-btn flat round icon="shopping_cart"/>
+                    <q-btn
+                        flat
+                        round
+                        icon="shopping_cart"
+                        :disable="toggleCart(product)"
+                        @click="updateCartHome(product)"
+                    />
                 </q-card-actions>
         </q-card>
     </div>
@@ -43,15 +49,29 @@ export default {
   components: { Spinner },
   props: ['products'],
   computed: {
-    ...mapGetters('myStore', ['shortlistGetter', 'getProducts', 'favGetter'])
+    ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter'])
   },
   methods: {
-    ...mapActions('myStore', ['shortlistProdAction']),
+    ...mapActions('myStore', ['shortlistProdAction', 'updateCart']),
     showProductDetails (id) {
       this.$router.push(`/product-detail/${id}`)
     },
+    updateCartHome (product) {
+      let check = []
+      check.push(product.id)
+      if (!this.cartItemGetter.includes(product)) {
+        this.updateCart({ check, remove: false })
+      }
+    },
     toggleFav (product) {
       if (this.shortlistGetter.includes(product)) {
+        return true
+      } else {
+        return false
+      }
+    },
+    toggleCart (product) {
+      if (this.cartItemGetter.includes(product)) {
         return true
       } else {
         return false

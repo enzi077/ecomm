@@ -20,7 +20,7 @@
           color="green"
           label="Add to Cart"
           class="q-ma-md"
-          @click="updateCart({check, remove: false})"
+          @click="updateShortlistCart"
         />
         <q-btn
           no-caps
@@ -45,10 +45,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('myStore', ['shortlistGetter'])
+    ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter'])
   },
   methods: {
-    ...mapActions('myStore', ['updateShortlist', 'updateCart'])
+    ...mapActions('myStore', ['updateShortlist', 'updateCart']),
+    updateShortlistCart () {
+      let tempArr = this.cartItemGetter.filter(item => this.check.sort().indexOf(item.id) > -1)
+      console.log(tempArr)
+    }
   }
 }
 </script>

@@ -1,33 +1,29 @@
 <template>
     <div class="q-pa-md">
     <q-carousel
-                v-model="slide"
-                transition-prev="scale"
-                transition-next="scale"
-                swipeable
-                animated
-                control-color="white"
-                navigation
-                padding
-                arrows
-                height="300px"
-                v-if="products.length > 0"
-                class="bg-primary text-white shadow-1 rounded-borders col"
-            >
-            <!-- <q-carousel-slide
-              name="style"
-              class="column no-wrap flex-center"
-              v-for="product in products"
-              :key="product.id"
-              :img-src="product.image"
-            >
-                <div class="q-mt-md text-center">
-                    {{product.title}}
-                </div>
-            </q-carousel-slide> -->
-            <q-carousel-slide name="style" class="column no-wrap flex-center">
-                <div class="q-mt-md text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos, architecto?</div>
-            </q-carousel-slide>
+        v-model="slide"
+        animated
+        transition-next="slide-left"
+        transition-prev="slide-right"
+        swipeable
+        control-color="blue"
+        padding
+        arrows
+        height="300px"
+        v-if="products.length > 0"
+        class="bg-primary text-white shadow-1 rounded-borders col"
+    >
+        <q-carousel-slide
+            v-for="product in products"
+            class="column no-wrap flex-center"
+            :name="product.id"
+            :key="product.id"
+            :img-src="product.image"
+        >
+            <div class="custom-caption q-mt-md text-center">
+                {{product.title}}
+            </div>
+        </q-carousel-slide>
     </q-carousel>
     </div>
 </template>
@@ -36,9 +32,17 @@
 export default {
   data () {
     return {
-      slide: 'style'
+      slide: 1
     }
   },
   props: ['products']
 }
 </script>
+
+<style lang="sass" scoped>
+    .custom-caption
+        width: fit-content
+        padding: 10px
+        background-color: rgba(0, 0, 0, 0.85)
+        border-radius: 20px
+</style>

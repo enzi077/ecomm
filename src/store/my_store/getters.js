@@ -10,7 +10,3 @@ export function shortlistGetter (state) {
 export function cartItemGetter (state) {
   return state.cartItem
 }
-
-export function favGetter (state) {
-  return state.fav
-}
