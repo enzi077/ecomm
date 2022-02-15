@@ -29,18 +29,24 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
       slide: 1
     }
   },
+  computed: {
+    ...mapState('myStore', ['products'])
+  },
   methods: {
     showProductDetails (id) {
       this.$router.push(`/product-detail/${id}`)
     }
-  },
-  props: ['products']
+  }
+//   mounted () {
+//     this.loadData()
+//   }
 }
 </script>
 

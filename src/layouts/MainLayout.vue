@@ -29,7 +29,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view :products="products" :key="$route.path"/>
+      <router-view :key="$route.path"/>
     </q-page-container>
 
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import axios from '../axios-auth'
 import toUpper from '../utils/toUpperString'
 import toLower from '../utils/toLowerString'
@@ -46,15 +47,15 @@ export default {
   data () {
     return {
       left: false,
-      categories: [],
-      products: []
+      categories: []
     }
   },
   methods: {
     showCategory (categoryName) {
       const propName = toLower(categoryName)
       this.$router.push(`/category/${propName}`)
-    }
+    },
+    ...mapActions('myStore', ['loadData'])
   },
   created () {
     axios.get('/products/categories')
@@ -68,8 +69,7 @@ export default {
 
     axios.get('/products')
       .then(res => {
-        // eslint-disable-next-line prefer-const
-        this.products = res.data
+        this.loadData(res.data)
       })
       .catch(error => console.log(error))
   }

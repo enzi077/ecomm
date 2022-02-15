@@ -1,7 +1,7 @@
 <template>
   <q-page flex>
-        <Carousel :products="products"/>
-        <Card :products="products" />
+        <Carousel/>
+        <Card/>
   </q-page>
 </template>
 
@@ -15,7 +15,6 @@ export default {
   components: {
     Carousel,
     Card
-  },
-  props: ['products']
+  }
 }
 </script>

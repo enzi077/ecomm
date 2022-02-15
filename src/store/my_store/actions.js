@@ -1,3 +1,16 @@
+import axios from '../../axios-auth'
+/* eslint-disable prefer-const */
+export function loadData ({ commit }, payload) {
+  commit('setData', payload)
+}
+
+export function loadCategoryData ({ commit }, payload) {
+  axios.get(`/products/category/${payload}`)
+    .then(res => {
+      commit('setCatData', res.data)
+    })
+    .catch(err => console.log(err))
+}
 
 export function shortlistProdAction ({ commit }, payload) {
   commit('addToShortlist', payload)

@@ -1,14 +1,23 @@
 /* eslint-disable prefer-const */
-import { uniqBy } from 'lodash-es'
+import { intersectionBy, uniqBy } from 'lodash-es'
+
+export function setData (state, payload) {
+  state.products = payload
+}
+
+export function setCatData (state, payload) {
+  state.catProd = intersectionBy(state.products, payload, 'id')
+}
 
 export function addToShortlist (state, payload) {
-  if (state.shortlistProd.includes(payload.product)) {
+  if (state.shortlistProd.includes(payload.product, 0)) {
     state.shortlistProd = state.shortlistProd.filter(item =>
       item.id !== payload.product.id
     )
   } else {
     state.shortlistProd.push(payload.product)
   }
+  state.shortlistProd = uniqBy(state.shortlistProd, 'id')
 }
 
 export function updateShortlist (state, payload) {
