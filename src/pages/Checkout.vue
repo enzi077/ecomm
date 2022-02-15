@@ -19,6 +19,7 @@
                     v-model.number="itemCount"
                     type="number"
                     style="max-width: 100px"
+                    :rules="[ val => val <= cartItem.rating.count || `Only ${cartItem.rating.count} available`]"
                 />
             </q-item-section>
             <q-item-section side>
@@ -74,6 +75,13 @@ export default {
       itemCount: 1
     }
   },
+  //   watch :{
+  //       outOfStock() {
+  //           for(let item in this.cartItemGetter){
+  //               if(this.cartItemGetter[item].rating.count < item)
+  //           }
+  //       }
+  //   },
   computed: {
     ...mapGetters('myStore', ['cartItemGetter']),
     getTotalPrice () {

@@ -13,12 +13,8 @@
             <q-list>
                 <q-item>
                 <q-item-section>
-                    <q-item-label>Name:</q-item-label>
-                    <q-item-label>Price:</q-item-label>
-                </q-item-section>
-                <q-item-section>
-                    <q-item-label>{{myProduct.title}}</q-item-label>
-                    <q-item-label>{{myProduct.price}}</q-item-label>
+                    <q-item-label>Name: <span class="text-subtitle2">{{myProduct.title}}</span></q-item-label>
+                    <q-item-label>Price: $<span class="text-subtitle2">{{myProduct.price}}</span></q-item-label>
                 </q-item-section>
                 </q-item>
             </q-list>

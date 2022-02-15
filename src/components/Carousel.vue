@@ -20,7 +20,7 @@
             :key="product.id"
             :img-src="product.image"
         >
-            <div class="custom-caption q-mt-md text-center">
+            <div @click="showProductDetails(product.id)" class="custom-caption q-mt-md text-center">
                 {{product.title}}
             </div>
         </q-carousel-slide>
@@ -35,6 +35,11 @@ export default {
       slide: 1
     }
   },
+  methods: {
+    showProductDetails (id) {
+      this.$router.push(`/product-detail/${id}`)
+    }
+  },
   props: ['products']
 }
 </script>
@@ -45,4 +50,6 @@ export default {
         padding: 10px
         background-color: rgba(0, 0, 0, 0.85)
         border-radius: 20px
+    .custom-caption:hover
+        cursor: pointer
 </style>

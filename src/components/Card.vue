@@ -56,12 +56,10 @@ export default {
     showProductDetails (id) {
       this.$router.push(`/product-detail/${id}`)
     },
-    updateCartHome (product) {
+    updateCartHome (id) {
       let check = []
-      check.push(product.id)
-      if (!this.cartItemGetter.includes(product)) {
-        this.updateCart({ check, remove: false })
-      }
+      check.push(id)
+      this.updateCart({ check })
     },
     toggleFav (product) {
       if (this.shortlistGetter.includes(product)) {

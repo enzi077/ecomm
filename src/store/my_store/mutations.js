@@ -1,4 +1,6 @@
 /* eslint-disable prefer-const */
+import { uniqBy } from 'lodash-es'
+
 export function addToShortlist (state, payload) {
   if (state.shortlistProd.includes(payload.product)) {
     state.shortlistProd = state.shortlistProd.filter(item =>
@@ -11,7 +13,7 @@ export function addToShortlist (state, payload) {
 
 export function updateShortlist (state, payload) {
   state.shortlistProd = state.shortlistProd.filter(item =>
-    payload.check.sort().indexOf(item.id) < 0
+    payload.check.sort().indexOf(item) < 0
   )
 }
 
@@ -21,8 +23,9 @@ export function updateCart (state, payload) {
       payload.check.sort().indexOf(item.id) < 0
     )
   } else {
-    state.cartItem = state.shortlistProd.filter(item =>
-      payload.check.sort().indexOf(item.id) > -1
-    )
+    for (let item in payload.check) {
+      state.cartItem.push(payload.check[item])
+    }
+    state.cartItem = uniqBy(state.cartItem, 'id')
   }
 }

@@ -23,7 +23,6 @@
 import CardPayment from '../components/CardPayment.vue'
 import Gpay from '../components/Gpay.vue'
 import CashOnDelivery from '../components/CashOnDelivery.vue'
-// import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -31,14 +30,6 @@ export default {
       type: ''
     }
   },
-  //   computed: {
-  //     ...mapGetters('myStore', ['cartItemGetter']),
-  //     total () {
-  //       return (this.cartItemGetter.reduce(function (tempVal, currVal) {
-  //         return tempVal + currVal.price
-  //       }, 0))
-  //     }
-  //   },
   components: {
     CardPayment,
     Gpay,

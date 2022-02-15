@@ -11,7 +11,7 @@
                     <q-item-label>{{product.title}}</q-item-label>
                 </q-item-section>
                 <q-item-section side>
-                    <q-checkbox v-model="check" :val="product.id"/>
+                    <q-checkbox v-model="check" :val="product"/>
                 </q-item-section>
             </q-item>
         </q-list>
@@ -20,7 +20,7 @@
           color="green"
           label="Add to Cart"
           class="q-ma-md"
-          @click="updateShortlistCart"
+          @click="updateCart({check})"
         />
         <q-btn
           no-caps
@@ -48,11 +48,11 @@ export default {
     ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter'])
   },
   methods: {
-    ...mapActions('myStore', ['updateShortlist', 'updateCart']),
-    updateShortlistCart () {
-      let tempArr = this.cartItemGetter.filter(item => this.check.sort().indexOf(item.id) > -1)
-      console.log(tempArr)
-    }
+    ...mapActions('myStore', ['updateShortlist', 'updateCart'])
+    // updateShortlistCart () {
+    //  let tempArr = this.cartItemGetter.filter(item => this.check.sort().indexOf(item.id) > -1)
+    //  console.log(tempArr)
+    // }
   }
 }
 </script>
