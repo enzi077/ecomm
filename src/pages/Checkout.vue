@@ -16,10 +16,11 @@
             </q-item-section>
             <q-item-section side>
                 <q-input
-                    v-model.number="itemCount"
+                    :value="itemCount"
+                    @input="checkStock($event, cartItem)"
                     type="number"
                     style="max-width: 100px"
-                    :rules="[ val => val <= cartItem.rating.count || `Only ${cartItem.rating.count} available`]"
+                    :rules="[ val => val <= cartItem.rating.count || val > 0 || `Only ${cartItem.rating.count} available`]"
                 />
             </q-item-section>
             <q-item-section side>
@@ -75,13 +76,6 @@ export default {
       itemCount: 1
     }
   },
-  //   watch :{
-  //       outOfStock() {
-  //           for(let item in this.cartItemGetter){
-  //               if(this.cartItemGetter[item].rating.count < item)
-  //           }
-  //       }
-  //   },
   computed: {
     ...mapGetters('myStore', ['cartItemGetter']),
     getTotalPrice () {
@@ -89,22 +83,25 @@ export default {
         return (this.cartItemGetter.filter(item =>
           this.check.sort().indexOf(item.id) > -1
         ).reduce(function (tempVal, currVal) {
-          return tempVal + currVal.price
+          return tempVal + (currVal.price * currVal.currCount)
         }, 0))
       } else {
         return (this.cartItemGetter.reduce(function (tempVal, currVal) {
-          return tempVal + currVal.price
+          return tempVal + (currVal.price * currVal.currCount)
         }, 0))
       }
     }
   },
   methods: {
-    ...mapActions('myStore', ['updateCart']),
+    ...mapActions('myStore', ['updateCart', 'noStock']),
     showPaymentDialog () {
       this.basic = !this.basic
     },
     proceedToPayment () {
       this.$router.push({ path: '/payment', query: { amt: this.getTotalPrice } })
+    },
+    checkStock ($event, val) {
+      this.noStock({ currCount: $event, prod: val })
     }
   }
 }

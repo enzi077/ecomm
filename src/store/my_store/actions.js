@@ -23,3 +23,7 @@ export function updateShortlist ({ commit }, payload) {
 export function updateCart ({ commit }, payload) {
   commit('updateCart', payload)
 }
+
+export function noStock ({ commit }, payload) {
+  commit('noStock', payload)
+}

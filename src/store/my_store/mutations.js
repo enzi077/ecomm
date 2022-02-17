@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { intersectionBy, uniqBy } from 'lodash-es'
+import { find, intersectionBy, uniqBy } from 'lodash-es'
 
 export function setData (state, payload) {
   state.products = payload
@@ -37,4 +37,10 @@ export function updateCart (state, payload) {
     }
     state.cartItem = uniqBy(state.cartItem, 'id')
   }
+}
+
+export function noStock (state, payload) {
+  let prod = find(state.products, { id: payload.prod.id })
+  state.products[prod.id - 1].rating.count -= payload.prod.rating.count
+  state.products[prod.id - 1].currCount = payload.currCount
 }

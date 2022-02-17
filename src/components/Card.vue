@@ -88,7 +88,7 @@ import Spinner from './Spinner.vue'
 export default {
   components: { Spinner },
   computed: {
-    ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter']),
+    ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter', 'outOfStockGetter']),
     ...mapState('myStore', ['catProd', 'products'])
   },
   props: ['showCatItems', 'catTitle'],
@@ -111,6 +111,8 @@ export default {
     },
     toggleCart (product) {
       if (this.cartItemGetter.includes(product, 0)) {
+        return true
+      } else if (product.rating.count === 0) {
         return true
       } else {
         return false

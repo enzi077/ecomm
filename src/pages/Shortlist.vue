@@ -49,10 +49,6 @@ export default {
   },
   methods: {
     ...mapActions('myStore', ['updateShortlist', 'updateCart'])
-    // updateShortlistCart () {
-    //  let tempArr = this.cartItemGetter.filter(item => this.check.sort().indexOf(item.id) > -1)
-    //  console.log(tempArr)
-    // }
   }
 }
 </script>
