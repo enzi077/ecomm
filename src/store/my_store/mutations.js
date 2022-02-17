@@ -41,6 +41,7 @@ export function updateCart (state, payload) {
 
 export function noStock (state, payload) {
   let prod = find(state.products, { id: payload.prod.id })
-  state.products[prod.id - 1].rating.count -= payload.prod.rating.count
-  state.products[prod.id - 1].currCount = payload.currCount
+  const index = state.products.indexOf(prod)
+  state.products[index].rating.count -= payload.prod.rating.count
+  state.products[index].currCount = payload.currCount
 }
