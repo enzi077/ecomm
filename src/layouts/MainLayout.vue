@@ -62,7 +62,7 @@ export default {
       .then(res => {
         // eslint-disable-next-line prefer-const
         for (let myData in res.data) {
-          this.categories.push(toUpper(res.data[myData]))
+          this.categories.push(toUpper(res.data[myData].name))
         }
       })
       .catch(error => console.log(error))
@@ -72,6 +72,12 @@ export default {
         this.loadData(res.data)
       })
       .catch(error => console.log(error))
+
+    if (localStorage.getItem('token')) {
+      axios.get('/login/user', { headers: { token: localStorage.getItem('token') } })
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
   }
 }
 </script>

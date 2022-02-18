@@ -98,7 +98,11 @@ export default {
       this.basic = !this.basic
     },
     proceedToPayment () {
-      this.$router.push({ path: '/payment', query: { amt: this.getTotalPrice } })
+      if (localStorage.getItem('token')) {
+        this.$router.push({ path: '/payment', query: { amt: this.getTotalPrice } })
+      } else {
+        this.$router.push('/signup')
+      }
     },
     checkStock ($event, val) {
       this.noStock({ currCount: $event, prod: val })
