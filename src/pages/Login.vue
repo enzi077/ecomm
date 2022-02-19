@@ -1,4 +1,5 @@
 <template>
+    <q-page class="row justify-center">
         <q-form
             @submit="onSubmit"
             @reset="onReset"
@@ -27,8 +28,9 @@
         <q-btn label="Login" type="submit" color="primary"/>
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
-      <q-btn label="Not yet registered? Sign up now" @click="$emit('showSignup', true)" color="primary" flat class="q-ml-sm" />
+      <q-btn label="Not yet registered? Sign up now" @click="$router.push('/signup')" color="primary" flat class="q-ml-sm" />
         </q-form>
+    </q-page>
 </template>
 
 <script>
@@ -36,6 +38,7 @@ import axios from '../axios-auth'
 import { mapActions } from 'vuex'
 
 export default {
+  name: 'Login',
   data () {
     return {
       username: '',
@@ -57,7 +60,7 @@ export default {
         .then(res => {
           if (res.status === 200) {
             localStorage.setItem('token', res.data.token)
-            this.$router.push('/shortlist')
+            this.$router.push('/')
             this.checkLogin({ loggedIn: true })
           }
         })

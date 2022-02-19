@@ -10,3 +10,7 @@ export function shortlistGetter (state) {
 export function cartItemGetter (state) {
   return state.cartItem
 }
+
+export function getUser (state) {
+  return state.user
+}

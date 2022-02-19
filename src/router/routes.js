@@ -5,7 +5,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('src/pages/Home.vue'), name: 'Home' },
-      { path: 'auth', component: () => import('src/pages/Auth.vue'), name: 'Auth' },
+      { path: 'login', component: () => import('src/pages/Login.vue'), name: 'Login' },
+      { path: 'signup', component: () => import('src/pages/Signup.vue'), name: 'Signup' },
       { path: 'checkout', component: () => import('pages/Checkout.vue'), name: 'Checkout' },
       { path: 'shortlist', component: () => import('pages/Shortlist.vue'), name: 'Shortlist' },
       { path: 'product-detail/:id', component: () => import('pages/ProductDetail.vue'), name: 'ProductDetail' },

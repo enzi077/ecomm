@@ -9,46 +9,23 @@
                 <q-btn no-caps align="center" size="20px" :ripple="false" dense flat to="/">E-comm Ninja</q-btn>
             </q-toolbar-title>
 
-        <q-btn
-          no-caps
-          align="center"
-          size="20px"
-          :ripple="false"
-          dense
-          v-if="loggedIn"
-          flat
-          @click="logout"
-          to="/">
-            Logout
-        </q-btn>
-        <div v-else>
-            <q-btn
-            no-caps
-            align="center"
-            size="20px"
-            :ripple="false"
-            dense
-            v-if="loggedIn"
-            flat
-            @click="logout"
-            to="/">
-                Signup
-            </q-btn>
-            <q-btn
-            no-caps
-            align="center"
-            size="20px"
-            :ripple="false"
-            dense
-            v-if="loggedIn"
-            flat
-            @click="logout"
-            to="/">
-                Login
-            </q-btn>
-        </div>
         <q-btn dense flat round icon="favorite" to="/shortlist"/>
         <q-btn dense flat round icon="shopping_cart" to="/checkout"/>
+        <q-btn-dropdown dense flat round dropdown-icon="more_vert">
+            <q-list v-if="loggedIn" bordered>
+                <q-item @click="logout" clickable v-ripple>
+                    <q-item-label>Logout</q-item-label>
+                </q-item>
+            </q-list>
+            <q-list v-else bordered>
+                <q-item @click="showSignup" clickable v-ripple>
+                    <q-item-label>Signup</q-item-label>
+                </q-item>
+                <q-item @click="showLogin" clickable v-ripple>
+                    <q-item-label>Login</q-item-label>
+                </q-item>
+            </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
@@ -100,6 +77,13 @@ export default {
     logout () {
       localStorage.clear()
       this.checkLogin({ user: {}, loggedIn: false })
+      this.$router.push('/login')
+    },
+    showSignup () {
+      this.$router.push('/signup')
+    },
+    showLogin () {
+      this.$router.push('/login')
     }
   },
   created () {
@@ -118,13 +102,13 @@ export default {
       })
       .catch(error => console.log(error))
 
-    if (localStorage.getItem('token')) {
-      axios.get('/login/user', { headers: { token: localStorage.getItem('token') } })
-        .then(res => {
-          this.checkLogin({ user: res.data, loggedIn: true })
-        })
-        .catch(err => console.log(err))
-    }
+    // if (localStorage.getItem('token')) {
+    //   axios.get('/login/user', { headers: { token: localStorage.getItem('token') } })
+    //     .then(res => {
+    //       this.checkLogin({ user: res.data, loggedIn: true })
+    //     })
+    //     .catch(err => console.log(err))
+    // }
   }
 }
 </script>

@@ -1,4 +1,5 @@
 <template>
+    <q-page class="row justify-center">
             <q-form
             @submit="onSubmit"
             @reset="onReset"
@@ -34,13 +35,15 @@
             <q-btn label="Signup" type="submit" color="primary"/>
             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
-        <q-btn label="Already registered? Login here" @click="$emit('showLogin', true)" color="primary" flat class="q-ml-sm" />
+        <q-btn label="Already registered? Login here" @click="$router.push('/login')" color="primary" flat class="q-ml-sm" />
             </q-form>
+    </q-page>
 </template>
 
 <script>
 import axios from '../axios-auth'
 export default {
+  name: 'Signup',
   data () {
     return {
       username: '',
@@ -61,6 +64,11 @@ export default {
         password: this.password
       }
       axios.post('/signup', newUser)
+        .then(res => {
+          if (res.status === 200) {
+            this.$emit('showLogin', true)
+          }
+        })
     }
   }
 }
