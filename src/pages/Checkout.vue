@@ -101,7 +101,7 @@ export default {
       if (localStorage.getItem('token')) {
         this.$router.push({ path: '/payment', query: { amt: this.getTotalPrice } })
       } else {
-        this.$router.push('/signup')
+        this.$router.push('/auth')
       }
     },
     checkStock ($event, val) {

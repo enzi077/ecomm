@@ -12,6 +12,10 @@ export function loadCategoryData ({ commit }, payload) {
     .catch(err => console.log(err))
 }
 
+export function checkLogin ({ commit }, payload) {
+  commit('checkLogin', payload)
+}
+
 export function shortlistProdAction ({ commit }, payload) {
   commit('addToShortlist', payload)
 }

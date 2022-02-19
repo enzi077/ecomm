@@ -9,6 +9,44 @@
                 <q-btn no-caps align="center" size="20px" :ripple="false" dense flat to="/">E-comm Ninja</q-btn>
             </q-toolbar-title>
 
+        <q-btn
+          no-caps
+          align="center"
+          size="20px"
+          :ripple="false"
+          dense
+          v-if="loggedIn"
+          flat
+          @click="logout"
+          to="/">
+            Logout
+        </q-btn>
+        <div v-else>
+            <q-btn
+            no-caps
+            align="center"
+            size="20px"
+            :ripple="false"
+            dense
+            v-if="loggedIn"
+            flat
+            @click="logout"
+            to="/">
+                Signup
+            </q-btn>
+            <q-btn
+            no-caps
+            align="center"
+            size="20px"
+            :ripple="false"
+            dense
+            v-if="loggedIn"
+            flat
+            @click="logout"
+            to="/">
+                Login
+            </q-btn>
+        </div>
         <q-btn dense flat round icon="favorite" to="/shortlist"/>
         <q-btn dense flat round icon="shopping_cart" to="/checkout"/>
       </q-toolbar>
@@ -39,7 +77,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import axios from '../axios-auth'
 import toUpper from '../utils/toUpperString'
 import toLower from '../utils/toLowerString'
@@ -50,12 +88,19 @@ export default {
       categories: []
     }
   },
+  computed: {
+    ...mapState('myStore', ['loggedIn'])
+  },
   methods: {
     showCategory (categoryName) {
       const propName = toLower(categoryName)
       this.$router.push(`/category/${propName}`)
     },
-    ...mapActions('myStore', ['loadData'])
+    ...mapActions('myStore', ['loadData', 'checkLogin']),
+    logout () {
+      localStorage.clear()
+      this.checkLogin({ user: {}, loggedIn: false })
+    }
   },
   created () {
     axios.get('/products/categories')
@@ -75,7 +120,9 @@ export default {
 
     if (localStorage.getItem('token')) {
       axios.get('/login/user', { headers: { token: localStorage.getItem('token') } })
-        .then(res => console.log(res))
+        .then(res => {
+          this.checkLogin({ user: res.data, loggedIn: true })
+        })
         .catch(err => console.log(err))
     }
   }

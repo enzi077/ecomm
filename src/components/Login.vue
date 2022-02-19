@@ -27,11 +27,14 @@
         <q-btn label="Login" type="submit" color="primary"/>
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
+      <q-btn label="Not yet registered? Sign up now" @click="$emit('showSignup', true)" color="primary" flat class="q-ml-sm" />
         </q-form>
 </template>
 
 <script>
 import axios from '../axios-auth'
+import { mapActions } from 'vuex'
+
 export default {
   data () {
     return {
@@ -40,6 +43,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('myStore', ['checkLogin']),
     onReset () {
       this.username = ''
       this.password = ''
@@ -54,6 +58,7 @@ export default {
           if (res.status === 200) {
             localStorage.setItem('token', res.data.token)
             this.$router.push('/shortlist')
+            this.checkLogin({ loggedIn: true })
           }
         })
         .catch(err => console.log(err))

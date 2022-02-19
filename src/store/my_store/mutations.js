@@ -45,3 +45,8 @@ export function noStock (state, payload) {
   state.products[index].rating.count -= payload.prod.rating.count
   state.products[index].currCount = payload.currCount
 }
+
+export function checkLogin (state, payload) {
+  state.loggedIn = payload.loggedIn
+  state.user = payload.user
+}

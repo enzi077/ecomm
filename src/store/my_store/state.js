@@ -4,6 +4,8 @@ export default function () {
     products: [],
     catProd: [],
     shortlistProd: [],
-    cartItem: []
+    cartItem: [],
+    loggedIn: false,
+    user: {}
   }
 }
