@@ -4,11 +4,19 @@ export function getProducts (state) {
 }
 
 export function shortlistGetter (state) {
-  return state.shortlistProd
+  if (state.loggedIn) {
+    return state.user.shortlist
+  } else {
+    return state.shortlistProd
+  }
 }
 
 export function cartItemGetter (state) {
-  return state.cartItem
+  if (state.loggedIn) {
+    return state.user.cart
+  } else {
+    return state.cartItem
+  }
 }
 
 export function getUser (state) {

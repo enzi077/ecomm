@@ -73,10 +73,10 @@ export default {
       const propName = toLower(categoryName)
       this.$router.push(`/category/${propName}`)
     },
-    ...mapActions('myStore', ['loadData', 'checkLogin']),
+    ...mapActions('myStore', ['loadData', 'userLogout']),
     logout () {
       localStorage.clear()
-      this.checkLogin({ user: {}, loggedIn: false })
+      this.userLogout({ user: {}, loggedIn: false })
       this.$router.push('/login')
     },
     showSignup () {
@@ -101,14 +101,6 @@ export default {
         this.loadData(res.data)
       })
       .catch(error => console.log(error))
-
-    // if (localStorage.getItem('token')) {
-    //   axios.get('/login/user', { headers: { token: localStorage.getItem('token') } })
-    //     .then(res => {
-    //       this.checkLogin({ user: res.data, loggedIn: true })
-    //     })
-    //     .catch(err => console.log(err))
-    // }
   }
 }
 </script>

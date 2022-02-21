@@ -24,7 +24,7 @@
                 />
             </q-item-section>
             <q-item-section side>
-                <q-checkbox v-model="check" :val="cartItem.id"/>
+                <q-checkbox v-model="check" :val="cartItem"/>
             </q-item-section>
         </q-item>
         <q-item>
@@ -47,7 +47,7 @@
             label="Remove from cart"
             class="q-ma-md"
             no-caps
-            @click="updateCart({check, remove: true})"
+            @click="updateCartHere(check)"
         />
         <q-dialog v-model="basic">
             <q-card>
@@ -65,7 +65,7 @@
 
 <script>
 /* eslint-disable prefer-const */
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Checkout',
@@ -77,7 +77,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('myStore', ['cartItemGetter']),
+    ...mapGetters('myStore', ['cartItemGetter', 'getUser']),
+    ...mapState('myStore', ['loggedIn']),
     getTotalPrice () {
       if (this.check) {
         return (this.cartItemGetter.filter(item =>
@@ -93,7 +94,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('myStore', ['updateCart', 'noStock']),
+    ...mapActions('myStore', ['updateCart', 'removeFromCart', 'noStock']),
     showPaymentDialog () {
       this.basic = !this.basic
     },
@@ -106,6 +107,13 @@ export default {
     },
     checkStock ($event, val) {
       this.noStock({ currCount: $event, prod: val })
+    },
+    updateCartHere (products) {
+      if (this.loggedIn) {
+        this.removeFromCart({ check: products, forCart: true, user: this.getUser })
+      } else {
+        this.removeFromCart({ check: products, forCart: true })
+      }
     }
   }
 }

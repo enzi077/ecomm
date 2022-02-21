@@ -61,7 +61,6 @@ export default {
           if (res.status === 200) {
             localStorage.setItem('token', res.data.token)
             this.$router.push('/')
-            this.checkLogin({ loggedIn: true })
           }
         })
         .catch(err => console.log(err))

@@ -20,14 +20,14 @@
           color="green"
           label="Add to Cart"
           class="q-ma-md"
-          @click="updateCart({check})"
+          @click="updateCartHere(check)"
         />
         <q-btn
           no-caps
           color="red"
           label="Remove from shortlist"
           class="q-ma-md"
-          @click="updateShortlist({check})"
+          @click="updateShortlistHere(check)"
         />
     </q-page>
     <Spinner v-else/>
@@ -35,7 +35,7 @@
 
 <script>
 import Spinner from 'src/components/Spinner.vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 export default {
   /* eslint-disable prefer-const */
   components: { Spinner },
@@ -45,10 +45,25 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter'])
+    ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter', 'getUser']),
+    ...mapState('myStore', ['loggedIn'])
   },
   methods: {
-    ...mapActions('myStore', ['updateShortlist', 'updateCart'])
+    ...mapActions('myStore', ['updateShortlist', 'updateCart']),
+    updateShortlistHere (products) {
+      if (this.loggedIn) {
+        this.updateShortlist({ check: products, user: this.getUser })
+      } else {
+        this.updateShortlist({ check: products })
+      }
+    },
+    updateCartHere (products) {
+      if (this.loggedIn) {
+        this.updateCart({ check: products, forCart: true, user: this.getUser })
+      } else {
+        this.updateCart({ check: products, forCart: true })
+      }
+    }
   }
 }
 </script>

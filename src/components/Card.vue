@@ -83,13 +83,14 @@
 
 <script>
 /* eslint-disable prefer-const */
+// import axios from '../axios-auth'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import Spinner from './Spinner.vue'
 export default {
   components: { Spinner },
   computed: {
-    ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter', 'outOfStockGetter']),
-    ...mapState('myStore', ['catProd', 'products'])
+    ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter', 'getUser']),
+    ...mapState('myStore', ['catProd', 'products', 'loggedIn'])
   },
   props: ['showCatItems', 'catTitle'],
   methods: {
@@ -97,20 +98,26 @@ export default {
     showProductDetails (id) {
       this.$router.push(`/product-detail/${id}`)
     },
-    updateCartHome (id) {
+    updateCartHome (product) {
       let check = []
-      check.push(id)
-      this.updateCart({ check })
+      check.push(product)
+      if (!this.cartItemGetter.some(item => item.id === product.id)) {
+        if (this.loggedIn) {
+          this.updateCart({ check, forCart: true, user: this.getUser })
+        } else {
+          this.updateCart({ check, forCart: true })
+        }
+      }
     },
     toggleFav (product) {
-      if (this.shortlistGetter.includes(product, 0)) {
+      if (this.shortlistGetter.some(item => item.id === product.id)) {
         return true
       } else {
         return false
       }
     },
     toggleCart (product) {
-      if (this.cartItemGetter.includes(product, 0)) {
+      if (this.cartItemGetter.some(item => item.id === product.id)) {
         return true
       } else if (product.rating.count === 0) {
         return true
@@ -119,18 +126,21 @@ export default {
       }
     },
     addToShortlist (product) {
-      if (this.shortlistGetter.includes(product, 0)) {
-        this.toggleFav(product)
-        this.$q.notify({
-          message: 'Already in Shortlist',
-          color: '#c1c1c1'
-        })
-      } else {
-        this.shortlistProdAction({ product })
-        this.$q.notify({
-          message: 'Added to Shortlist',
-          color: '#c1c1c1'
-        })
+      if (!this.shortlistGetter.some(item => item.id === product.id)) {
+        if (this.loggedIn) {
+          this.toggleFav(product)
+          this.shortlistProdAction({ product, user: this.getUser })
+          this.$q.notify({
+            message: 'Added to Shortlist',
+            color: '#c1c1c1'
+          })
+        } else {
+          this.shortlistProdAction({ product })
+          this.$q.notify({
+            message: 'Added to Shortlist',
+            color: '#c1c1c1'
+          })
+        }
       }
     }
   }

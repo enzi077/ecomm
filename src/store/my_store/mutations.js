@@ -10,20 +10,27 @@ export function setCatData (state, payload) {
 }
 
 export function addToShortlist (state, payload) {
-  if (state.shortlistProd.includes(payload.product, 0)) {
-    state.shortlistProd = state.shortlistProd.filter(item =>
-      item.id !== payload.product.id
-    )
-  } else {
-    state.shortlistProd.push(payload.product)
-  }
+  state.shortlistProd.push(payload.product)
   state.shortlistProd = uniqBy(state.shortlistProd, 'id')
+}
+
+export function addToUserShortlist (state, payload) {
+  state.user.shortlist.push(payload.product)
+  state.user.shortlist = uniqBy(state.user.shortlist, 'id')
 }
 
 export function updateShortlist (state, payload) {
   state.shortlistProd = state.shortlistProd.filter(item =>
     payload.check.sort().indexOf(item) < 0
   )
+  state.shortlistProd = uniqBy(state.shortlistProd, 'id')
+}
+
+export function updateUserShortlist (state, payload) {
+  state.user.shortlist = state.user.shortlist.filter(item =>
+    payload.check.sort().indexOf(item) < 0
+  )
+  state.user.shortlist = uniqBy(state.user.shortlist, 'id')
 }
 
 export function updateCart (state, payload) {
@@ -37,6 +44,27 @@ export function updateCart (state, payload) {
     }
     state.cartItem = uniqBy(state.cartItem, 'id')
   }
+}
+
+export function updateUserCart (state, payload) {
+  for (let item in payload.check) {
+    state.user.cart.push(payload.check[item])
+  }
+  state.user.cart = uniqBy(state.user.cart, 'id')
+}
+
+export function removeFromUserCart (state, payload) {
+  state.user.cart = state.user.cart.filter(item =>
+    payload.check.sort().indexOf(item) < 0
+  )
+  state.user.cart = uniqBy(state.user.cart, 'id')
+}
+
+export function removeFromCart (state, payload) {
+  state.cartItem = state.cartItem.filter(item =>
+    payload.check.sort().indexOf(item) < 0
+  )
+  state.cartItem = uniqBy(state.cartItem, 'id')
 }
 
 export function noStock (state, payload) {

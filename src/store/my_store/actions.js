@@ -12,20 +12,73 @@ export function loadCategoryData ({ commit }, payload) {
     .catch(err => console.log(err))
 }
 
-export function checkLogin ({ commit }, payload) {
+export function getLoggedUser ({ commit }) {
+  axios.get('/login/user', { headers: { token: localStorage.getItem('token') } })
+    .then(res => {
+      commit('checkLogin', { user: res.data, loggedIn: true })
+    })
+    .catch(err => console.log(err))
+}
+
+export function userLogout ({ commit }, payload) {
   commit('checkLogin', payload)
 }
 
 export function shortlistProdAction ({ commit }, payload) {
-  commit('addToShortlist', payload)
+  if (payload.user) {
+    axios.post('/login/user', payload)
+      .then(res => {
+        if (res.status === 200) {
+          commit('addToUserShortlist', payload)
+        }
+      })
+      .catch(err => console.log(err))
+  } else {
+    commit('addToShortlist', payload)
+  }
 }
 
 export function updateShortlist ({ commit }, payload) {
-  commit('updateShortlist', payload)
+  if (payload.user) {
+    axios.put('/login/user', payload)
+      .then(res => {
+        if (res.status === 200) {
+          commit('updateUserShortlist', payload)
+        }
+      })
+      .catch(err => console.log(err))
+  } else {
+    commit('updateShortlist', payload)
+  }
 }
 
 export function updateCart ({ commit }, payload) {
-  commit('updateCart', payload)
+  if (payload.user) {
+    axios.post('/login/user', payload)
+      .then(res => {
+        if (res.status === 200) {
+          commit('updateUserCart', payload)
+        }
+      })
+      .catch(err => console.log(err))
+  } else {
+    commit('updateCart', payload)
+  }
+}
+
+export function removeFromCart ({ commit }, payload) {
+  if (payload.user) {
+    axios.post('/login/user', payload)
+      .then(res => {
+        if (res.status === 200) {
+          commit('removeFromUserCart', payload)
+        }
+      })
+      .catch(err => console.log(err))
+  } else {
+    console.log('nio')
+    commit('removeFromCart', payload)
+  }
 }
 
 export function noStock ({ commit }, payload) {
