@@ -6,6 +6,7 @@ export default function () {
     shortlistProd: [],
     cartItem: [],
     loggedIn: false,
-    user: {}
+    user: {},
+    finalPaymentArr: []
   }
 }

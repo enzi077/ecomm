@@ -50,6 +50,7 @@
     </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import Address from './Address.vue'
 export default {
   data () {
@@ -65,8 +66,13 @@ export default {
   components: {
     Address
   },
+  computed: {
+    ...mapGetters('myStore', ['getFinalPaymentArr'])
+  },
   methods: {
+    ...mapActions('myStore', ['updateProductCount']),
     onSubmit () {
+      this.updateProductCount(this.getFinalPaymentArr)
       this.showPaymentSuccess = !this.showPaymentSuccess
     },
     onReset () {

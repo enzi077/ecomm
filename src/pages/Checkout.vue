@@ -16,11 +16,9 @@
             </q-item-section>
             <q-item-section side>
                 <q-input
-                    :value="itemCount"
                     @input="checkStock($event, cartItem)"
                     type="number"
                     style="max-width: 100px"
-                    :rules="[ val => val <= cartItem.rating.count || val > 0 || `Only ${cartItem.rating.count} available`]"
                 />
             </q-item-section>
             <q-item-section side>
@@ -32,7 +30,7 @@
                 <q-item-label>Total</q-item-label>
             </q-item-section>
             <q-item-section side>
-                <q-item-label>= ${{getTotalPrice}}</q-item-label>
+                <q-item-label>= ${{total}}</q-item-label>
             </q-item-section>
         </q-item>
         <q-btn
@@ -65,6 +63,7 @@
 
 <script>
 /* eslint-disable prefer-const */
+import { find } from 'lodash-es'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -73,40 +72,45 @@ export default {
     return {
       check: [],
       basic: false,
-      itemCount: 0
+      itemCount: 0,
+      total: 0,
+      itemsForPayment: []
     }
   },
   computed: {
-    ...mapGetters('myStore', ['cartItemGetter', 'getUser']),
-    ...mapState('myStore', ['loggedIn']),
-    getTotalPrice () {
-      if (this.check) {
-        return (this.cartItemGetter.filter(item =>
-          this.check.sort().indexOf(item.id) > -1
-        ).reduce(function (tempVal, currVal) {
-          return tempVal + (currVal.price * currVal.currCount)
-        }, 0))
-      } else {
-        return (this.cartItemGetter.reduce(function (tempVal, currVal) {
-          return tempVal + (currVal.price * currVal.currCount)
-        }, 0))
-      }
+    ...mapGetters('myStore', ['cartItemGetter', 'getUser', 'getFinalPaymentArr']),
+    ...mapState('myStore', ['loggedIn'])
+  },
+  watch: {
+    check (newVal) {
+      let finalPaymentArr = this.itemsForPayment.filter(item =>
+        newVal.some(itemInCheck => itemInCheck.id === item.id)
+      )
+      this.updatePayment(finalPaymentArr)
+      this.total = this.getFinalPaymentArr.reduce((accum, item) => accum + (item.unitPrice * item.currCount), 0)
     }
   },
   methods: {
-    ...mapActions('myStore', ['updateCart', 'removeFromCart', 'noStock']),
+    ...mapActions('myStore', ['updateCart', 'removeFromCart', 'noStock', 'updatePayment']),
     showPaymentDialog () {
       this.basic = !this.basic
     },
     proceedToPayment () {
       if (localStorage.getItem('token')) {
-        this.$router.push({ path: '/payment', query: { amt: this.getTotalPrice } })
+        this.$router.push({ path: '/payment', query: { amt: this.total } })
       } else {
         this.$router.push('/login')
       }
     },
     checkStock ($event, val) {
-      this.noStock({ currCount: $event, prod: val })
+      let newObj = { id: val.id, currCount: $event, unitPrice: val.price }
+      let replaceProd = find(this.itemsForPayment, { id: newObj.id })
+      if (replaceProd) {
+        this.itemsForPayment.splice(this.itemsForPayment.indexOf(replaceProd), 1, newObj)
+      } else {
+        this.itemsForPayment.push(newObj)
+      }
+      // whenever toggle is fired, again, then remove this item from check []
     },
     updateCartHere (products) {
       if (this.loggedIn) {

@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import Address from './Address.vue'
 export default {
   components: {
@@ -43,8 +44,13 @@ export default {
       showPaymentSuccess: false
     }
   },
+  computed: {
+    ...mapGetters('myStore', ['getFinalPaymentArr'])
+  },
   methods: {
+    ...mapActions('myStore', ['updateProductCount']),
     onSubmit () {
+      this.updateProductCount(this.getFinalPaymentArr)
       this.showPaymentSuccess = !this.showPaymentSuccess
     },
     onReset () {

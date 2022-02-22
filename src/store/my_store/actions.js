@@ -76,11 +76,20 @@ export function removeFromCart ({ commit }, payload) {
       })
       .catch(err => console.log(err))
   } else {
-    console.log('nio')
     commit('removeFromCart', payload)
   }
 }
 
+export function updatePayment ({ commit }, payload) {
+  commit('updatePayment', payload)
+}
+
 export function noStock ({ commit }, payload) {
   commit('noStock', payload)
+}
+
+export function updateProductCount ({ commit }, payload) {
+  axios.put('/products', payload)
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err))
 }

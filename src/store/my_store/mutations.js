@@ -67,11 +67,16 @@ export function removeFromCart (state, payload) {
   state.cartItem = uniqBy(state.cartItem, 'id')
 }
 
+export function updatePayment (state, payload) {
+  state.finalPaymentArr = payload
+}
+
 export function noStock (state, payload) {
   let prod = find(state.products, { id: payload.prod.id })
   const index = state.products.indexOf(prod)
-  state.products[index].rating.count -= payload.prod.rating.count
-  state.products[index].currCount = payload.currCount
+  state.products[index].rating.count -= payload.currCount
+  console.log(state.products[index])
+  // state.products[index].currCount = payload.currCount
 }
 
 export function checkLogin (state, payload) {

@@ -22,3 +22,7 @@ export function cartItemGetter (state) {
 export function getUser (state) {
   return state.user
 }
+
+export function getFinalPaymentArr (state) {
+  return state.finalPaymentArr
+}
