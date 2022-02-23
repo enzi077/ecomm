@@ -11,9 +11,9 @@
                 </div>
             </q-item-section>
             <q-item-section>
-                <CardPayment v-if="type==='card'"/>
-                <Gpay v-else-if="type==='gpay'"/>
-                <CashOnDelivery v-else-if="type==='cash'"/>
+                <CardPayment v-if="type==='card'" :toRem="$route.query.itemsToBeRem"/>
+                <Gpay v-else-if="type==='gpay'" :toRem="$route.query.itemsToBeRem"/>
+                <CashOnDelivery v-else-if="type==='cash'" :toRem="$route.query.itemsToBeRem"/>
             </q-item-section>
         </q-list>
     </q-page>

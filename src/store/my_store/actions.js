@@ -68,7 +68,7 @@ export function updateCart ({ commit }, payload) {
 
 export function removeFromCart ({ commit }, payload) {
   if (payload.user) {
-    axios.post('/login/user', payload)
+    axios.put('/login/user', payload)
       .then(res => {
         if (res.status === 200) {
           commit('removeFromUserCart', payload)
@@ -90,6 +90,8 @@ export function noStock ({ commit }, payload) {
 
 export function updateProductCount ({ commit }, payload) {
   axios.put('/products', payload)
-    .then(res => console.log(res.data))
+    .then(res => {
+      commit('setData', res.data)
+    })
     .catch(err => console.log(err))
 }

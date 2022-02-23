@@ -83,10 +83,10 @@ export default {
   },
   watch: {
     check (newVal) {
-      let finalPaymentArr = this.itemsForPayment.filter(item =>
+      let tempFinalPaymentArr = this.itemsForPayment.filter(item =>
         newVal.some(itemInCheck => itemInCheck.id === item.id)
       )
-      this.updatePayment(finalPaymentArr)
+      this.updatePayment(tempFinalPaymentArr)
       this.total = this.getFinalPaymentArr.reduce((accum, item) => accum + (item.unitPrice * item.currCount), 0)
     }
   },
@@ -97,13 +97,13 @@ export default {
     },
     proceedToPayment () {
       if (localStorage.getItem('token')) {
-        this.$router.push({ path: '/payment', query: { amt: this.total } })
+        this.$router.push({ path: '/payment', query: { amt: this.total, itemsToBeRem: this.check } })
       } else {
         this.$router.push('/login')
       }
     },
     checkStock ($event, val) {
-      let newObj = { id: val.id, currCount: $event, unitPrice: val.price }
+      let newObj = { id: val.id, currCount: $event, unitPrice: val.price, mongoUpd: { count: (val.rating.count - $event), rate: val.rating.rate } }
       let replaceProd = find(this.itemsForPayment, { id: newObj.id })
       if (replaceProd) {
         this.itemsForPayment.splice(this.itemsForPayment.indexOf(replaceProd), 1, newObj)
