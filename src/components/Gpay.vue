@@ -46,7 +46,7 @@ export default {
   },
   props: ['toRem'],
   computed: {
-    ...mapGetters('myStore', ['getFinalPaymentArr', 'cartItemGetter', 'getUser'])
+    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser'])
   },
   methods: {
     ...mapActions('myStore', ['updateProductCount', 'removeFromCart']),

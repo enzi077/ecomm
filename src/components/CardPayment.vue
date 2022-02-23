@@ -66,13 +66,15 @@ export default {
   components: {
     Address
   },
+  props: ['toRem'],
   computed: {
-    ...mapGetters('myStore', ['getFinalPaymentArr'])
+    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser'])
   },
   methods: {
-    ...mapActions('myStore', ['updateProductCount']),
+    ...mapActions('myStore', ['updateProductCount', 'removeFromCart']),
     onSubmit () {
       this.updateProductCount(this.getFinalPaymentArr)
+      this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
       this.showPaymentSuccess = !this.showPaymentSuccess
     },
     onReset () {

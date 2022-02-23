@@ -1,7 +1,7 @@
 <template>
-    <div @submit="onSubmit">
+    <div>
         <Address/>
-        <q-btn label="Pay" type="submit" color="primary"/>
+        <q-btn @click="onSubmit" label="Pay" type="submit" color="primary"/>
         <q-dialog v-model="showPaymentSuccess">
             <q-card>
                 <q-card-section>
@@ -28,13 +28,15 @@ export default {
   components: {
     Address
   },
+  props: ['toRem'],
   computed: {
-    ...mapGetters('myStore', ['getFinalPaymentArr'])
+    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser'])
   },
   methods: {
-    ...mapActions('myStore', ['updateProductCount']),
+    ...mapActions('myStore', ['updateProductCount', 'removeFromCart']),
     onSubmit () {
       this.updateProductCount(this.getFinalPaymentArr)
+      this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
       this.showPaymentSuccess = !this.showPaymentSuccess
     }
   }
