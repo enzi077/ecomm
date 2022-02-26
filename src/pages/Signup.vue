@@ -1,33 +1,38 @@
 <template>
     <q-page class="row justify-center">
             <q-form
-            @submit="onSubmit"
+            @submit.stop="onSubmit"
             @reset="onReset"
             class="q-gutter-md col-xs-12 col-sm-6 self-center"
             >
             <p class="text-h5">Sign Up</p>
         <q-input
-            v-model="username"
+            v-model="$v.username.$model"
             label="Your name/ username *"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Please type something']"
+            :error="$v.username.$error"
+            error-message="Invalid entry. Please try again."
+            :rules="[val => val.length > 0]"
         />
         <q-input
-            v-model="email"
+            v-model="$v.email.$model"
             type="email"
             label="Your email *"
             lazy-rules
+            :error="$v.email.$error"
+            error-message="Invalid entry. PLease try again"
             :rules="[ val => val && val.length > 0 || 'Please type something']"
         />
 
         <q-input
             type="password"
-            v-model="password"
+            v-model="$v.password.$model"
             label="Your password *"
             lazy-rules
+            :error="$v.password.$error"
+            error-message="Invalid entry. Please try again"
             :rules="[
-            val => val !== null && val !== '' || 'Please type a valid password',
-            val => val.length > 6 || 'Please type a valid password'
+            val => val.length > 6 || 'Min characters required 6'
             ]"
         />
 
@@ -41,6 +46,7 @@
 </template>
 
 <script>
+import { required, email } from 'vuelidate/lib/validators'
 import axios from '../axios-auth'
 export default {
   name: 'Signup',
@@ -69,6 +75,28 @@ export default {
             this.$emit('showLogin', true)
           }
         })
+      if (this.$v.$anyError) {
+        this.$q.notify({
+          color: 'red',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'Form not valid'
+        })
+      } else {
+        this.$q.notify({
+          color: 'green',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Form submitted'
+        })
+      }
+    }
+  },
+  validations () {
+    return {
+      username: { required },
+      email: { required, email },
+      password: { required }
     }
   }
 }
