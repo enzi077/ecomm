@@ -99,7 +99,6 @@ export default {
     axios.get('/products')
       .then(res => {
         this.loadData(res.data)
-        console.log(res.data)
       })
       .catch(error => console.log(error))
   }
