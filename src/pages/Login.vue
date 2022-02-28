@@ -59,31 +59,41 @@ export default {
       this.password = ''
     },
     onSubmit () {
-      const user = {
-        username: this.username,
-        password: this.password
-      }
-      axios.post('/login', user)
-        .then(res => {
-          if (res.status === 200) {
-            localStorage.setItem('token', res.data.token)
-            this.$q.notify({
-              color: 'green',
-              textColor: 'white',
-              icon: 'cloud_done',
-              message: 'Logged in'
-            })
-            this.$router.push('/')
-          }
+      this.$v.$touch()
+      if (this.$v.invalid) {
+        this.$q.notify({
+          color: 'red',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'Form not valid'
         })
-        .catch(() => {
-          this.$q.notify({
-            color: 'red',
-            textColor: 'white',
-            icon: 'warning',
-            message: 'Invalid User'
+      } else {
+        const user = {
+          username: this.username,
+          password: this.password
+        }
+        axios.post('/login', user)
+          .then(res => {
+            if (res.status === 200) {
+              localStorage.setItem('token', res.data.token)
+              this.$q.notify({
+                color: 'green',
+                textColor: 'white',
+                icon: 'cloud_done',
+                message: 'Logged in'
+              })
+              this.$router.push('/')
+            }
           })
-        })
+          .catch(() => {
+            this.$q.notify({
+              color: 'red',
+              textColor: 'white',
+              icon: 'warning',
+              message: 'Invalid User'
+            })
+          })
+      }
     }
   },
   validations () {

@@ -9,31 +9,24 @@
         <q-input
             v-model="$v.username.$model"
             label="Your name/ username *"
-            lazy-rules
             :error="$v.username.$error"
             error-message="Invalid entry. Please try again."
-            :rules="[val => val.length > 0]"
         />
         <q-input
             v-model="$v.email.$model"
             type="email"
             label="Your email *"
-            lazy-rules
             :error="$v.email.$error"
-            error-message="Invalid entry. PLease try again"
-            :rules="[ val => val && val.length > 0 || 'Please type something']"
+            error-message="Invalid entry. Please try again"
         />
 
         <q-input
             type="password"
             v-model="$v.password.$model"
             label="Your password *"
-            lazy-rules
             :error="$v.password.$error"
             error-message="Invalid entry. Please try again"
-            :rules="[
-            val => val.length > 6 || 'Min characters required 6'
-            ]"
+            :rules="[ val => val.length > 6 ]"
         />
 
         <div>
@@ -64,18 +57,8 @@ export default {
       this.password = ''
     },
     onSubmit () {
-      const newUser = {
-        username: this.username,
-        email: this.email,
-        password: this.password
-      }
-      axios.post('/signup', newUser)
-        .then(res => {
-          if (res.status === 200) {
-            this.$emit('showLogin', true)
-          }
-        })
-      if (this.$v.$anyError) {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
         this.$q.notify({
           color: 'red',
           textColor: 'white',
@@ -83,6 +66,17 @@ export default {
           message: 'Form not valid'
         })
       } else {
+        const newUser = {
+          username: this.username,
+          email: this.email,
+          password: this.password
+        }
+        axios.post('/signup', newUser)
+          .then(res => {
+            if (res.status === 200) {
+              this.$emit('showLogin', true)
+            }
+          })
         this.$q.notify({
           color: 'green',
           textColor: 'white',
@@ -92,12 +86,13 @@ export default {
       }
     }
   },
-  validations () {
-    return {
-      username: { required },
-      email: { required, email },
-      password: { required }
-    }
+  validations: {
+    username: { required },
+    email: { required, email },
+    password: { required }
   }
 }
+// :rules="[val => val.length > 0]"
+// :rules="[ val => val && val.length > 0 ]"
+// :rules="[ val => val.length > 6 || 'Min characters required 6' ]"
 </script>
