@@ -20,7 +20,7 @@
             :key="product.id"
             :img-src="product.image"
         >
-            <div @click="showProductDetails(product.id)" class="custom-caption q-mt-md text-center">
+            <div @click="showProductDetails(product._id)" class="custom-caption q-mt-md text-center">
                 {{product.title}}
             </div>
         </q-carousel-slide>

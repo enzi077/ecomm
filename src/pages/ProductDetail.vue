@@ -18,21 +18,27 @@
                 </q-item-section>
                 </q-item>
             </q-list>
-            <!-- <q-btn-toggle
-                flat
-                toggle-color="primary"
-                :options="[
-                    {label: 'One', value: 'one'},
-                    {label: 'Two', value: 'two'},
-                    {label: 'Three', value: 'three'}
-                ]"
-            /> -->
+            <q-btn
+            no-caps
+            color="red"
+            label="Add to Shortlist"
+            class="q-ma-md"
+            @click="updateShortlistDetailProd(myProduct)"
+            />
+            <q-btn
+            no-caps
+            color="green"
+            label="Add to Cart"
+            class="q-ma-md"
+            @click="updateCartDetailProd(myProduct)"
+            />
         </div>
     </div>
     <Spinner v-else/>
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from 'vuex'
 import Spinner from 'src/components/Spinner.vue'
 import axios from '../axios-auth'
 export default {
@@ -42,10 +48,52 @@ export default {
       myProduct: {}
     }
   },
+  computed: {
+    ...mapState('myStore', ['loggedIn']),
+    ...mapGetters('myStore', ['cartItemGetter', 'shortlistGetter', 'getUser'])
+  },
+  methods: {
+    ...mapActions('myStore', ['updateCart', 'shortlistProdAction']),
+    updateCartDetailProd (product) {
+      const check = []
+      check.push(product)
+      if (!this.cartItemGetter.some(item => item.id === product.id)) {
+        if (this.loggedIn) {
+          this.updateCart({ check, forCart: true, user: this.getUser })
+          this.$q.notify({
+            message: 'Added to Cart',
+            color: '#c1c1c1'
+          })
+        } else {
+          this.updateCart({ check, forCart: true })
+          this.$q.notify({
+            message: 'Added to Cart',
+            color: '#c1c1c1'
+          })
+        }
+      }
+    },
+    updateShortlistDetailProd (product) {
+      if (!this.shortlistGetter.some(item => item.id === product.id)) {
+        if (this.loggedIn) {
+          this.shortlistProdAction({ product, user: this.getUser })
+          this.$q.notify({
+            message: 'Added to Shortlist',
+            color: '#c1c1c1'
+          })
+        } else {
+          this.shortlistProdAction({ product })
+          this.$q.notify({
+            message: 'Added to Shortlist',
+            color: '#c1c1c1'
+          })
+        }
+      }
+    }
+  },
   created () {
     axios.get(`/products/${this.$route.params.id}`)
       .then(res => {
-        console.log(res)
         this.myProduct = res.data
       })
       .catch(error => console.log(error))
