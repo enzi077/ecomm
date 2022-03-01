@@ -30,15 +30,16 @@
     </q-header>
 
     <q-drawer show-if-above v-model="left" side="left" bordered>
-        <q-list v-for="(category) in categories" :key="category" bordered>
-            <q-item @click="showCategory(category)" clickable v-ripple>
+        <q-list v-for="(category) in categories" :key="category._id" bordered>
+            <q-item @click="showCategory(category.name)" clickable v-ripple>
                 <q-item-section avatar>
-                    <q-avatar color="teal" text-color="white">
-                        {{ category.charAt(0) }}
+                    <q-avatar class="avatar">
+                        <q-icon :class="category.icon" />
+                        <!-- {{ category.charAt(0) }} -->
                     </q-avatar>
                 </q-item-section>
 
-                <q-item-section>{{ category }}</q-item-section>
+                <q-item-section>{{ toUpper(category.name) }}</q-item-section>
             </q-item>
         </q-list>
     </q-drawer>
@@ -48,7 +49,7 @@
     </q-page-container>
 
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-        <q-btn fab icon="keyboard_arrow_up" color="accent" />
+        <q-btn fab icon="keyboard_arrow_up" color="accent" text-color="dark"/>
     </q-page-scroller>
   </q-layout>
 </template>
@@ -56,7 +57,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import axios from '../axios-auth'
-import toUpper from '../utils/toUpperString'
+// import toUpper from '../utils/toUpperString'
 import toLower from '../utils/toLowerString'
 export default {
   data () {
@@ -72,6 +73,11 @@ export default {
     showCategory (categoryName) {
       const propName = toLower(categoryName)
       this.$router.push(`/category/${propName}`)
+    },
+    toUpper (str) {
+      if (str.length > 0) {
+        return str.charAt(0).toUpperCase() + str.slice(1)
+      }
     },
     ...mapActions('myStore', ['loadData', 'userLogout']),
     logout () {
@@ -91,7 +97,7 @@ export default {
       .then(res => {
         // eslint-disable-next-line prefer-const
         for (let myData in res.data) {
-          this.categories.push(toUpper(res.data[myData].name))
+          this.categories.push(res.data[myData])
         }
       })
       .catch(error => console.log(error))
@@ -104,3 +110,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.avatar {
+    background-color: $accent;
+    color: #fff
+}
+</style>
