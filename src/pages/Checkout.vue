@@ -20,6 +20,7 @@
                     type="number"
                     style="max-width: 100px"
                 />
+                <div v-if="error" class="text-overline">Invalid Entry</div>
             </q-item-section>
             <q-item-section side>
                 <q-checkbox v-model="check" :val="cartItem"/>
@@ -72,8 +73,8 @@ export default {
     return {
       check: [],
       basic: false,
-      itemCount: 0,
       total: 0,
+      error: false,
       itemsForPayment: []
     }
   },
@@ -103,14 +104,22 @@ export default {
       }
     },
     checkStock ($event, val) {
-      let newObj = { id: val.id, currCount: $event, unitPrice: val.price, mongoUpd: { count: (val.rating.count - $event), rate: val.rating.rate } }
-      let replaceProd = find(this.itemsForPayment, { id: newObj.id })
-      if (replaceProd) {
-        this.itemsForPayment.splice(this.itemsForPayment.indexOf(replaceProd), 1, newObj)
+      if ($event < 0 || $event > val.rating.count) {
+        this.error = true
       } else {
-        this.itemsForPayment.push(newObj)
+        this.error = false
+        let newObj = { id: val.id, currCount: $event, unitPrice: val.price, mongoUpd: { count: (val.rating.count - $event), rate: val.rating.rate } }
+        let replaceProd = find(this.itemsForPayment, { id: newObj.id })
+        if (replaceProd) {
+          this.itemsForPayment.splice(this.itemsForPayment.indexOf(replaceProd), 1, newObj)
+        } else {
+          this.itemsForPayment.push(newObj)
+        }
+
+        // whenever toggle is fired, again, then remove this item from check []
+        let index = this.cartItemGetter.indexOf(val)
+        this.check.splice(index, 1)
       }
-      // whenever toggle is fired, again, then remove this item from check []
     },
     updateCartHere (products) {
       if (this.loggedIn) {
@@ -118,6 +127,9 @@ export default {
       } else {
         this.removeFromCart({ check: products, forCart: true })
       }
+
+      // setting value of total to zero
+      this.check = []
     }
   }
 }
