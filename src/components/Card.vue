@@ -10,7 +10,7 @@
             class="my-card col-xs-12 col-sm-6 col-md-3"
             >
                 <q-img
-                @click="showProductDetails(product.id)"
+                @click="showProductDetails(product._id)"
                 v-ripple
                 class="cursor-pointer q-hoverable"
                 :src= "product.image"
@@ -96,7 +96,7 @@ export default {
   methods: {
     ...mapActions('myStore', ['shortlistProdAction', 'updateCart']),
     showProductDetails (id) {
-      this.$router.push(`product-detail/${id}`)
+      this.$router.push(`/product-detail/${id}`)
     },
     updateCartHome (product) {
       let check = []

@@ -1,11 +1,13 @@
 <template>
-    <Card :showCatItems="true" :catTitle="catTitle"/>
+    <Card v-if="catTitle" :showCatItems="true" :catTitle="catTitle"/>
+    <Spinner v-else/>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
 import toUpper from '../utils/toUpperString'
 import Card from '../components/Card.vue'
+import Spinner from '../components/Spinner.vue'
 export default {
   data () {
     return {
@@ -19,9 +21,10 @@ export default {
     ...mapActions('myStore', ['loadCategoryData'])
   },
   components: {
-    Card
+    Card,
+    Spinner
   },
-  mounted () {
+  created () {
     this.loadCategoryData(this.$route.params.categoryName)
     this.catTitle = toUpper(this.$route.params.categoryName)
   }

@@ -20,14 +20,14 @@
             </q-list>
             <q-btn
             no-caps
-            color="red"
+            color="negative"
             label="Add to Shortlist"
             class="q-ma-md"
             @click="updateShortlistDetailProd(myProduct)"
             />
             <q-btn
             no-caps
-            color="green"
+            color="positive"
             label="Add to Cart"
             class="q-ma-md"
             @click="updateCartDetailProd(myProduct)"

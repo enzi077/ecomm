@@ -34,14 +34,14 @@
             </q-item-section>
         </q-item>
         <q-btn
-            color="green"
+            color="positive"
             label="Proceed to Pay"
             class="q-ma-md"
             no-caps
             @click="showPaymentDialog"
         />
         <q-btn
-            color="red"
+            color="negative"
             label="Remove from cart"
             class="q-ma-md"
             no-caps
