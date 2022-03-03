@@ -95,3 +95,13 @@ export function updateProductCount ({ commit }, payload) {
     })
     .catch(err => console.log(err))
 }
+
+export function editProfile ({ commit }, payload) {
+  if (payload.id) {
+    axios.put(`/login/user/editprofile/${payload.id}`, payload)
+      .then(res => {
+        commit('updUser', res.data)
+      })
+      .catch(err => console.log(err))
+  }
+}

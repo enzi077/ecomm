@@ -1,6 +1,6 @@
 <template>
     <div class="row items-start">
-        <Address/>
+        <Address class="col-12"/>
         <q-form
             @submit="onSubmit"
             @reset="onReset"
@@ -73,9 +73,13 @@ export default {
   methods: {
     ...mapActions('myStore', ['updateProductCount', 'removeFromCart']),
     onSubmit () {
-      this.updateProductCount(this.getFinalPaymentArr)
-      this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
-      this.showPaymentSuccess = !this.showPaymentSuccess
+      if (this.getUser.address && this.getUser.contact) {
+        this.updateProductCount(this.getFinalPaymentArr)
+        this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
+        this.showPaymentSuccess = !this.showPaymentSuccess
+      } else {
+        this.$router.push('/profile')
+      }
     },
     onReset () {
       this.name = ''

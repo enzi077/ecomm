@@ -42,6 +42,12 @@
                 <q-item-section>{{ toUpper(category.name) }}</q-item-section>
             </q-item>
         </q-list>
+        <q-item v-if="loggedIn" @click="$router.push('/profile')" clickable v-ripple>
+            <q-item-section class="avatar">
+                <q-icon name="person"/>
+            </q-item-section>
+            <q-item-section>User Profile</q-item-section>
+        </q-item>
     </q-drawer>
 
     <q-page-container>

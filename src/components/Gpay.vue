@@ -1,6 +1,6 @@
 <template>
     <div class="row items-start">
-        <Address/>
+        <Address class="col-12"/>
         <q-form
             @submit="onSubmit"
             @reset="onReset"

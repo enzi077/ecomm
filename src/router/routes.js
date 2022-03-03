@@ -11,7 +11,8 @@ const routes = [
       { path: 'shortlist', component: () => import('pages/Shortlist.vue'), name: 'Shortlist' },
       { path: 'product-detail/:id', component: () => import('pages/ProductDetail.vue'), name: 'ProductDetail' },
       { path: 'payment', component: () => import('pages/Payment.vue'), name: 'Payment' },
-      { path: 'category/:categoryName', component: () => import('pages/Category.vue'), name: 'Category' }
+      { path: 'category/:categoryName', component: () => import('pages/Category.vue'), name: 'Category' },
+      { path: 'profile', component: () => import('src/pages/UserProfile.vue'), name: 'Profile' }
     ]
   },
 

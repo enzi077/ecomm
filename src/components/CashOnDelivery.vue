@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Address/>
+        <Address class="col-12"/>
         <q-btn @click="onSubmit" label="Pay" type="submit" color="primary"/>
         <q-dialog v-model="showPaymentSuccess">
             <q-card>

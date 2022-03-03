@@ -76,10 +76,13 @@ export function noStock (state, payload) {
   const index = state.products.indexOf(prod)
   state.products[index].rating.count -= payload.currCount
   console.log(state.products[index])
-  // state.products[index].currCount = payload.currCount
 }
 
 export function checkLogin (state, payload) {
   state.loggedIn = payload.loggedIn
   state.user = payload.user
+}
+
+export function updUser (state, payload) {
+  state.user = payload
 }
