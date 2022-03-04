@@ -27,9 +27,9 @@
         />
 
         <div>
-            <q-btn label="Edit" type="submit" color="primary"/>
-            <q-btn label="Reset" type="reset" color="positive" flat class="q-ml-sm" />
-            <q-btn label="Cancel" @click="$emit('editDisp')" color="positive" flat class="q-ml-sm" />
+            <q-btn no-caps label="Submit" type="submit" color="primary"/>
+            <q-btn no-caps label="Reset" type="reset" color="positive" flat class="q-ml-sm" />
+            <q-btn no-caps label="Cancel" @click="$emit('editDisp')" color="positive" flat class="q-ml-sm" />
         </div>
             </q-form>
     </q-page>

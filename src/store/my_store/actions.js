@@ -1,7 +1,11 @@
 import axios from '../../axios-auth'
 /* eslint-disable prefer-const */
-export function loadData ({ commit }, payload) {
-  commit('setData', payload)
+export function loadData ({ commit }) {
+  axios.get('/products')
+    .then(res => {
+      commit('setData', res.data)
+    })
+    .catch(error => console.log(error))
 }
 
 export function loadCategoryData ({ commit }, payload) {

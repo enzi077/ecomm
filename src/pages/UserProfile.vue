@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="q-ma-md">
     <Address/>
-    <q-btn color="positive" @click="showEditProfile">Edit</q-btn>
+    <q-btn no-caps color="positive" @click="showEditProfile">Edit</q-btn>
     <EditProfile v-if="showEdit" @editDisp="showEditProfile"/>
   </div>
 </template>

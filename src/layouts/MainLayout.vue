@@ -35,7 +35,6 @@
                 <q-item-section avatar>
                     <q-avatar class="avatar">
                         <q-icon :class="category.icon" />
-                        <!-- {{ category.charAt(0) }} -->
                     </q-avatar>
                 </q-item-section>
 
@@ -43,8 +42,10 @@
             </q-item>
         </q-list>
         <q-item v-if="loggedIn" @click="$router.push('/profile')" clickable v-ripple>
-            <q-item-section class="avatar">
+            <q-item-section avatar>
+                <q-avatar class="avatar">
                 <q-icon name="person"/>
+                </q-avatar>
             </q-item-section>
             <q-item-section>User Profile</q-item-section>
         </q-item>
@@ -63,7 +64,6 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import axios from '../axios-auth'
-// import toUpper from '../utils/toUpperString'
 import toLower from '../utils/toLowerString'
 export default {
   data () {
@@ -108,11 +108,7 @@ export default {
       })
       .catch(error => console.log(error))
 
-    axios.get('/products')
-      .then(res => {
-        this.loadData(res.data)
-      })
-      .catch(error => console.log(error))
+    this.loadData()
   }
 }
 </script>

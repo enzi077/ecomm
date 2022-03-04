@@ -33,8 +33,8 @@
                 stack-label
             />
             <div>
-                <q-btn label="Pay" type="submit" color="primary"/>
-                <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                <q-btn no-caps label="Pay" type="submit" color="primary"/>
+                <q-btn no-caps label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
             </div>
         </q-form>
         <q-dialog v-model="showPaymentSuccess">
@@ -43,7 +43,7 @@
                     Your payment is successful
                 </q-card-section>
                 <q-card-actions>
-                    <q-btn flat label="OK" color="primary" v-close-popup />
+                    <q-btn no-caps flat label="OK" color="primary" v-close-popup />
                 </q-card-actions>
             </q-card>
         </q-dialog>
