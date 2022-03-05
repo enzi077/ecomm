@@ -92,7 +92,4 @@ export default {
     password: { required }
   }
 }
-// :rules="[val => val.length > 0]"
-// :rules="[ val => val && val.length > 0 ]"
-// :rules="[ val => val.length > 6 || 'Min characters required 6' ]"
 </script>

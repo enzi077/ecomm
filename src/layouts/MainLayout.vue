@@ -16,6 +16,9 @@
                 <q-item @click="logout" clickable v-ripple>
                     <q-item-label>Logout</q-item-label>
                 </q-item>
+                <q-item @click="$router.push('/profile')" clickable v-ripple>
+                    <q-item-label>User Profile</q-item-label>
+                </q-item>
             </q-list>
             <q-list v-else bordered>
                 <q-item @click="showSignup" clickable v-ripple>
@@ -41,14 +44,6 @@
                 <q-item-section>{{ toUpper(category.name) }}</q-item-section>
             </q-item>
         </q-list>
-        <q-item v-if="loggedIn" @click="$router.push('/profile')" clickable v-ripple>
-            <q-item-section avatar>
-                <q-avatar class="avatar">
-                <q-icon name="person"/>
-                </q-avatar>
-            </q-item-section>
-            <q-item-section>User Profile</q-item-section>
-        </q-item>
     </q-drawer>
 
     <q-page-container>

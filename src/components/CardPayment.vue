@@ -7,30 +7,39 @@
             autofocus
             class="col-xs-12 col-sm-8 col-md-6 q-gutter-lg">
             <q-input
-                v-model="name"
-                label="Name"
+                v-model="$v.name.$model"
+                label="Name *"
                 :dense="dense"
                 stack-label
+                :error="$v.name.$error"
+                error-message="Invalid entry"
             />
             <q-input
-                v-model="cardNumber"
-                label="Card Number"
+                v-model="$v.cardNumber.$model"
+                label="Card Number *"
                 :dense="dense"
                 stack-label
+                :error="$v.cardNumber.$error"
+                error-message="Invalid entry"
             />
             <q-input
-                v-model="date"
-                label="Date"
+                v-model="$v.date.$model"
+                label="Date *"
                 type="date"
                 :dense="dense"
                 stack-label
+                :error="$v.date.$error"
+                error-message="Invalid entry"
             />
             <q-input
-                v-model="cvv"
-                label="CVV"
+                v-model="$v.cvv.$model"
+                label="CVV *"
                 type="password"
                 :dense="dense"
                 stack-label
+                :error="$v.cvv.$error"
+                error-message="Invalid entry"
+                :rules="[val => val.length === 3]"
             />
             <div>
                 <q-btn no-caps label="Pay" type="submit" color="primary"/>
@@ -50,6 +59,7 @@
     </div>
 </template>
 <script>
+import { required, numeric } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import Address from './Address.vue'
 export default {
@@ -74,9 +84,19 @@ export default {
     ...mapActions('myStore', ['updateProductCount', 'removeFromCart']),
     onSubmit () {
       if (this.getUser.address && this.getUser.contact) {
-        this.updateProductCount(this.getFinalPaymentArr)
-        this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
-        this.showPaymentSuccess = !this.showPaymentSuccess
+        this.$v.$touch()
+        if (this.$v.invalid) {
+          this.$q.notify({
+            color: 'red',
+            textColor: 'white',
+            icon: 'warning',
+            message: 'Form not valid'
+          })
+        } else {
+          this.updateProductCount(this.getFinalPaymentArr)
+          this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
+          this.showPaymentSuccess = !this.showPaymentSuccess
+        }
       } else {
         this.$router.push('/profile')
       }
@@ -87,6 +107,12 @@ export default {
       this.cardNumber = ''
       this.date = ''
     }
+  },
+  validations: {
+    name: { required },
+    cardNumber: { required, numeric },
+    cvv: { required, numeric },
+    date: { required }
   }
 }
 </script>
