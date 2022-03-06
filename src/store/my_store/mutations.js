@@ -86,3 +86,7 @@ export function checkLogin (state, payload) {
 export function updUser (state, payload) {
   state.user = payload
 }
+
+export function setPriceRangeGlobal (state, payload) {
+  state.priceRangeGlobal = payload
+}

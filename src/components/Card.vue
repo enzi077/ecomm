@@ -90,7 +90,7 @@ export default {
   components: { Spinner },
   computed: {
     ...mapGetters('myStore', ['shortlistGetter', 'cartItemGetter', 'getUser']),
-    ...mapState('myStore', ['catProd', 'products', 'loggedIn'])
+    ...mapState('myStore', ['catProd', 'products', 'loggedIn', 'priceRangeGlobal'])
   },
   props: ['showCatItems', 'catTitle'],
   methods: {

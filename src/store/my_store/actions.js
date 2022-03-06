@@ -109,3 +109,7 @@ export function editProfile ({ commit }, payload) {
       .catch(err => console.log(err))
   }
 }
+
+export function setPriceRangeGlobal ({ commit }, payload) {
+  commit('setPriceRangeGlobal', payload)
+}

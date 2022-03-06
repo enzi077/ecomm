@@ -44,6 +44,45 @@
                 <q-item-section>{{ toUpper(category.name) }}</q-item-section>
             </q-item>
         </q-list>
+        <div class="q-ma-md row">
+            <p class="text-subtitle2 col-12">Filter by price:</p>
+            <q-radio
+                val="1-100"
+                v-model="priceRange"
+                label="$1-$100"
+                class="col-12"
+            />
+            <q-radio
+                val="101-300"
+                v-model="priceRange"
+                label="$101-$300"
+                class="col-12"
+            />
+            <q-radio
+                val="301-500"
+                v-model="priceRange"
+                label="$301-$500"
+                class="col-12"
+            />
+            <q-radio
+                val="501-700"
+                v-model="priceRange"
+                label="$501-$700"
+                class="col-12"
+            />
+            <q-radio
+                val="701-900"
+                v-model="priceRange"
+                label="$701-$900"
+                class="col-12"
+            />
+            <q-radio
+                val="901-1100"
+                v-model="priceRange"
+                label="$901-$1100"
+                class="col-12"
+            />
+        </div>
     </q-drawer>
 
     <q-page-container>
@@ -58,19 +97,27 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import filterProducts from '../utils/filterProducts'
 import axios from '../axios-auth'
 import toLower from '../utils/toLowerString'
 export default {
   data () {
     return {
       left: false,
-      categories: []
+      categories: [],
+      priceRange: null
+    }
+  },
+  watch: {
+    priceRange (val) {
+      this.setPriceRangeGlobal(filterProducts(val))
     }
   },
   computed: {
     ...mapState('myStore', ['loggedIn'])
   },
   methods: {
+    ...mapActions('myStore', ['setPriceRangeGlobal']),
     showCategory (categoryName) {
       const propName = toLower(categoryName)
       this.$router.push(`/category/${propName}`)
@@ -92,6 +139,9 @@ export default {
     showLogin () {
       this.$router.push('/login')
     }
+  },
+  filterProducts () {
+    console.log(this.options.value)
   },
   created () {
     axios.get('/products/categories')

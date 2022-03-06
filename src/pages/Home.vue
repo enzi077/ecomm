@@ -9,14 +9,15 @@
 <script>
 /* eslint-disable prefer-const */
 // import axios from '../axios-auth'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 import Carousel from '../components/Carousel.vue'
 import Card from '../components/Card.vue'
 
 export default {
   name: 'Home',
   computed: {
-    ...mapGetters('myStore', ['getUser'])
+    ...mapGetters('myStore', ['getUser']),
+    ...mapState('myStore', ['products'])
   },
   methods: {
     ...mapActions('myStore', ['getLoggedUser'])

@@ -7,6 +7,7 @@ export default function () {
     cartItem: [],
     loggedIn: false,
     user: {},
-    finalPaymentArr: []
+    finalPaymentArr: [],
+    priceRangeGlobal: []
   }
 }
