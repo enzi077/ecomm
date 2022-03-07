@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row justify-center">
+  <q-page class="justify-center">
         <p class="text-left text-weight-bold text-h6" v-if="getUser.username">Hi {{getUser.username}}</p>
         <Carousel/>
         <Card/>

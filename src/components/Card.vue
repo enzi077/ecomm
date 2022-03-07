@@ -6,6 +6,7 @@
         <div class="text-h6 col-12 text-center">{{catTitle}}</div>
         <q-card
             v-for="product in catProd"
+            v-show="product.price >= priceRangeGlobal[0] && product.price <= priceRangeGlobal[1]"
             :key="product.id"
             class="my-card col-xs-12 col-sm-6 col-md-3"
             >
@@ -45,8 +46,9 @@
     >
         <q-card
             v-for="product in products"
+            v-show="product.price >= priceRangeGlobal[0] && product.price <= priceRangeGlobal[1]"
             :key="product.id"
-            class="my-card col-xs-12 col-sm-6 col-md-3"
+            class="col-xs-12 col-sm-6 col-md-3"
             >
                 <q-img
                 @click="showProductDetails(product._id)"
@@ -83,7 +85,6 @@
 
 <script>
 /* eslint-disable prefer-const */
-// import axios from '../axios-auth'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import Spinner from './Spinner.vue'
 export default {

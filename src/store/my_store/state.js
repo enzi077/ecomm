@@ -8,6 +8,6 @@ export default function () {
     loggedIn: false,
     user: {},
     finalPaymentArr: [],
-    priceRangeGlobal: []
+    priceRangeGlobal: [1, 2000]
   }
 }

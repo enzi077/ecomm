@@ -47,39 +47,33 @@
         <div class="q-ma-md row">
             <p class="text-subtitle2 col-12">Filter by price:</p>
             <q-radio
+                val="1-2000"
+                v-model="priceRange"
+                label="None"
+                class="col-12"
+            />
+            <q-radio
                 val="1-100"
                 v-model="priceRange"
                 label="$1-$100"
                 class="col-12"
             />
             <q-radio
-                val="101-300"
+                val="101-500"
                 v-model="priceRange"
-                label="$101-$300"
+                label="$101-$500"
                 class="col-12"
             />
             <q-radio
-                val="301-500"
+                val="501-900"
                 v-model="priceRange"
-                label="$301-$500"
+                label="$501-$900"
                 class="col-12"
             />
             <q-radio
-                val="501-700"
+                val="901-2000"
                 v-model="priceRange"
-                label="$501-$700"
-                class="col-12"
-            />
-            <q-radio
-                val="701-900"
-                v-model="priceRange"
-                label="$701-$900"
-                class="col-12"
-            />
-            <q-radio
-                val="901-1100"
-                v-model="priceRange"
-                label="$901-$1100"
+                label="$901-$2000"
                 class="col-12"
             />
         </div>
@@ -90,7 +84,7 @@
     </q-page-container>
 
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-        <q-btn fab icon="keyboard_arrow_up" color="accent" text-color="dark"/>
+        <q-btn fab icon="keyboard_arrow_up" color="accent" text-color="white"/>
     </q-page-scroller>
   </q-layout>
 </template>
@@ -105,7 +99,7 @@ export default {
     return {
       left: false,
       categories: [],
-      priceRange: null
+      priceRange: '1-2000'
     }
   },
   watch: {
