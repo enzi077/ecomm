@@ -113,3 +113,7 @@ export function editProfile ({ commit }, payload) {
 export function setPriceRangeGlobal ({ commit }, payload) {
   commit('setPriceRangeGlobal', payload)
 }
+
+export function toRem ({ commit }, payload) {
+  commit('toRem', payload)
+}

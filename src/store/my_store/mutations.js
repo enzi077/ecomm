@@ -90,3 +90,7 @@ export function updUser (state, payload) {
 export function setPriceRangeGlobal (state, payload) {
   state.priceRangeGlobal = payload
 }
+
+export function toRem (state, payload) {
+  state.toRem = payload
+}

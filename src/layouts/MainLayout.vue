@@ -95,6 +95,7 @@ import filterProducts from '../utils/filterProducts'
 import axios from '../axios-auth'
 import toLower from '../utils/toLowerString'
 export default {
+  name: 'MainLayout',
   data () {
     return {
       left: false,

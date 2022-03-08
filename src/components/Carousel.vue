@@ -44,9 +44,6 @@ export default {
       this.$router.push(`/product-detail/${id}`)
     }
   }
-//   mounted () {
-//     this.loadData()
-//   }
 }
 </script>
 

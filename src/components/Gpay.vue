@@ -35,7 +35,7 @@
 <script>
 import upiValidator from '../utils/upiValidator'
 import { required } from 'vuelidate/lib/validators'
-import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import Address from './Address.vue'
 export default {
   components: {
@@ -48,9 +48,9 @@ export default {
       showPaymentSuccess: false
     }
   },
-  props: ['toRem'],
   computed: {
-    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser'])
+    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser']),
+    ...mapState('myStore', ['toRem'])
   },
   methods: {
     ...mapActions('myStore', ['updateProductCount', 'removeFromCart']),
@@ -66,7 +66,7 @@ export default {
           })
         } else {
           this.updateProductCount(this.getFinalPaymentArr)
-          this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
+          this.removeFromCart({ check: this.toRem.itemsToBeRem, forCart: true, user: this.getUser })
           this.showPaymentSuccess = !this.showPaymentSuccess
         }
       } else {

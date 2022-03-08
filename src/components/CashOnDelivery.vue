@@ -1,7 +1,7 @@
 <template>
     <div>
         <Address class="col-12"/>
-        <q-btn @click="onSubmit" label="Pay" type="submit" color="primary"/>
+        <q-btn @click="onSubmit" type="submit" color="primary" id="pay" no-caps>Pay</q-btn>
         <q-dialog v-model="showPaymentSuccess">
             <q-card>
                 <q-card-section>
@@ -15,7 +15,7 @@
     </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import Address from './Address.vue'
 export default {
   data () {
@@ -28,16 +28,16 @@ export default {
   components: {
     Address
   },
-  props: ['toRem'],
   computed: {
-    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser'])
+    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser']),
+    ...mapState('myStore', ['toRem'])
   },
   methods: {
     ...mapActions('myStore', ['updateProductCount', 'removeFromCart']),
     onSubmit () {
       if (this.getUser.address && this.getUser.contact) {
         this.updateProductCount(this.getFinalPaymentArr)
-        this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
+        this.removeFromCart({ check: this.toRem.itemsToBeRem, forCart: true, user: this.getUser })
         this.showPaymentSuccess = !this.showPaymentSuccess
       } else {
         this.$router.push('/profile')

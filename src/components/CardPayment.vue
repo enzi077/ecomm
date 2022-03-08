@@ -60,7 +60,7 @@
 </template>
 <script>
 import { required, numeric } from 'vuelidate/lib/validators'
-import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import Address from './Address.vue'
 export default {
   data () {
@@ -76,9 +76,9 @@ export default {
   components: {
     Address
   },
-  props: ['toRem'],
   computed: {
-    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser'])
+    ...mapGetters('myStore', ['getFinalPaymentArr', 'getUser']),
+    ...mapState('myStore', ['toRem'])
   },
   methods: {
     ...mapActions('myStore', ['updateProductCount', 'removeFromCart']),
@@ -94,7 +94,7 @@ export default {
           })
         } else {
           this.updateProductCount(this.getFinalPaymentArr)
-          this.removeFromCart({ check: this.toRem, forCart: true, user: this.getUser })
+          this.removeFromCart({ check: this.toRem.itemsToBeRem, forCart: true, user: this.getUser })
           this.showPaymentSuccess = !this.showPaymentSuccess
         }
       } else {

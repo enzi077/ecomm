@@ -92,13 +92,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions('myStore', ['updateCart', 'removeFromCart', 'noStock', 'updatePayment']),
+    ...mapActions('myStore', ['updateCart', 'removeFromCart', 'noStock', 'updatePayment', 'toRem']),
     showPaymentDialog () {
       this.basic = !this.basic
     },
     proceedToPayment () {
       if (localStorage.getItem('token')) {
-        this.$router.push({ path: '/payment', query: { amt: this.total, itemsToBeRem: this.check } })
+        let toRemObj = {
+          amt: this.total,
+          itemsToBeRem: this.check
+        }
+        this.toRem(toRemObj)
+        this.$router.push({ path: '/payment' })
       } else {
         this.$router.push('/login')
       }
